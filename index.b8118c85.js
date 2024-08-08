@@ -173,7 +173,7 @@ a("9Qf96", function(e, t) {
                 e.tweenFromTo(0, t.duration(), { duration: 1 });
                 t.tweenFromTo(0, t.duration(), { duration: 1 });
                 if (this.scrollableWebGL && this.scrollableWebGL.isMutable) {
-                    this.scrollableWebGL.toggleMuted();
+                    this.scrollableWebGL.toogleMuted();
                 }
             });
             let r = (0, n.gsap).timeline({
