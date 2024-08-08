@@ -67,7 +67,7 @@ body {
     --col-gutter: 5px;
     --doc-height: 100vh;
     --text-color: black;
-    --bg-color: #ede8e4;
+    --bg-color: #DFD3C3;
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: Pp Neue Montreal Regular
