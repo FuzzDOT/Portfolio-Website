@@ -2,7 +2,7 @@ var e = globalThis,
     r = {},
     t = {},
     o = e.parcelRequirea337;
-null == o && ((o = function(e) {
+null == o && ((o = function (e) {
     if (e in r) return r[e].exports;
     if (e in t) {
         var o = t[e];
@@ -15,9 +15,9 @@ null == o && ((o = function(e) {
     }
     var n = Error("Cannot find module '" + e + "'");
     throw n.code = "MODULE_NOT_FOUND", n
-}).register = function(e, r) {
+}).register = function (e, r) {
     t[e] = r
-}, e.parcelRequirea337 = o), (0, o.register)("dRo73", function(e, r) {
+}, e.parcelRequirea337 = o), (0, o.register)("dRo73", function (e, r) {
     Object.defineProperty(e.exports, "register", {
         get: () => t,
         set: e => t = e,
@@ -25,7 +25,7 @@ null == o && ((o = function(e) {
         configurable: !0
     });
     var t, o = new Map;
-    t = function(e, r) {
+    t = function (e, r) {
         for (var t = 0; t < r.length - 1; t += 2) o.set(r[t], {
             baseUrl: e,
             path: r[t + 1]

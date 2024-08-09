@@ -962,6 +962,7 @@ footer a {
 }
 
 @media (width<=1400px) {
+
     .bottom-text,
     .social-media {
         width: 16.66%
@@ -972,24 +973,30 @@ footer a {
     .bottom-text {
         width: 25%
     }
+
     .social-media {
         bottom: 0;
         left: var(--gutter);
         position: absolute
     }
+
     .bottom-center {
         margin-bottom: 70px
     }
+
     .about-more p {
         width: 33.33%
     }
+
     .footer-credits {
         display: none
     }
+
     .footer-okeystudio {
         text-align: end;
         width: 16.6%
     }
+
     .footer-text {
         width: 20.83%
     }
@@ -999,18 +1006,23 @@ footer a {
     .img-ctn {
         width: 40%
     }
+
     .bottom-text {
         width: 37.5%
     }
+
     .about-more p {
         width: 50%
     }
+
     .footer-text {
         width: 25%
     }
+
     .footer-okeystudio {
         width: 20.83%
     }
+
     .hero-picto {
         padding-bottom: 6vw
     }
@@ -1020,42 +1032,52 @@ footer a {
     .img-ctn {
         width: 50%
     }
+
     .bottom-square {
         width: 10px;
         height: 10px;
         margin-top: max(.6vw, 5px)
     }
+
     .square {
         width: 10px;
         height: 10px
     }
+
     footer {
         flex-wrap: wrap
     }
+
     .footer-text:first-child {
         padding-bottom: 20px
     }
+
     .footer-text {
         width: 100%;
         padding-bottom: 40px;
         padding-right: 50%
     }
+
     .footer-okeystudio span {
         min-width: max-content;
         display: block
     }
+
     .footer-okeystudio {
         width: unset
     }
+
     .footer-okeystudio.flex>span:first-child {
         flex-direction: column;
         align-items: flex-end;
         display: flex
     }
+
     .footer-text:nth-child(2) {
         border-bottom: solid 1px var(--text-color);
         margin-bottom: 15px
     }
+
     .ai2,
     .ai3 {
         display: none
@@ -1066,89 +1088,115 @@ footer a {
     h1 {
         visibility: visible
     }
+
     #webGLAppScroll {
         visibility: hidden
     }
+
     .img-ctn {
         width: 66.67%
     }
+
     .hero-container {
         justify-content: flex-start
     }
+
     .hero {
         min-height: max(320px, 100vh - 320px)
     }
+
     .about-more {
         font-size: max(16px, 1.15vw)
     }
+
     .about-more p {
         width: 100%
     }
+
     .footer-text {
         padding-right: 29.16%
     }
+
     .about img {
         display: none
     }
+
     .about {
         padding-left: var(--gutter);
         padding-right: var(--gutter)
     }
+
     .about p {
         font-size: max(30px, 3.18vw)
     }
+
     .line,
     .line>div {
         display: inline !important
     }
+
     .surrounded-mode {
         display: inline-block !important
     }
+
     .bottom {
         flex-wrap: wrap;
         justify-content: flex-end
     }
+
     .social-media {
         left: unset;
         order: 2;
         width: 100%;
         position: relative
     }
+
     .social-media ul {
         justify-content: space-between;
         width: 100%
     }
+
     .social-media li {
         padding-right: 0
     }
+
     .bottom-center {
         order: 1
     }
+
     .bottom-text {
         order: 3;
         width: 100%
     }
+
     .bottom-title {
         font-size: 8vw
     }
+
     .text-about {
         width: 79%
     }
+
     #elipse {
         display: none
     }
+
     .projects-mobile {
         display: block
     }
+
     .projects {
         display: none
     }
+
     .projects-pin-mobile .subtitle {
         margin-bottom: 80px
     }
+
     .bottom-els {
         min-height: unset
     }
+
     footer {
         font-size: max(15px, .91vw)
     }
@@ -1158,10 +1206,12 @@ footer a {
     .color-btn-inner {
         font-size: 3.2vw
     }
+
     .title-before,
     .title-after {
         display: none
     }
+
     .projects-pin-mobile .title h2 {
         font-size: max(8.68vw, 34px)
     }
@@ -1171,6 +1221,7 @@ footer a {
     .gif-container {
         display: block
     }
+
     .cursor {
         display: flex
     }
