@@ -1652,3 +1652,31 @@ footer a {
     padding-top: 16px;
   }
 }
+
+
+@media (max-width: 640px) {
+  /* Center text in change the mood button */
+  #mobile-app .color-btn,
+  #mobile-app .color-btn-inner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Add more spacing between CREATIVE / WEB / DEVELOPER */
+  #mobile-app .m-title-line{
+    margin-bottom: 12px;
+  }
+
+  /* More vertical space between major sections */
+  #mobile-app .m-hero{ padding-bottom: 48px; }
+  #mobile-app .m-reel{ margin-top: 48px; }
+  #mobile-app .m-work{ margin-top: 56px; }
+  #mobile-app .m-about{ margin-top: 56px; }
+  #mobile-app .m-contact{ margin-top: 64px; }
+
+  /* Slightly increase section title spacing */
+  #mobile-app .m-section-title{ margin-bottom: 24px; }
+}
