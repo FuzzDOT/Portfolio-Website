@@ -22,6 +22,191 @@
         content="Creative websites for a better digital experience. I'm Faaz, front-end developer and founder of FM Studio.">
 </head>
 
+<!-- =========================
+     MOBILE ENHANCEMENTS ONLY
+     ========================= -->
+<style>
+@media (max-width: 640px) {
+
+  /* ----- Header parity ----- */
+  header, .header {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  header .mood-btn,
+  .change-mood {
+    justify-self: center;
+  }
+
+  /* ----- Hero parity ----- */
+  .hero h1,
+  .hero-title {
+    font-size: clamp(2.5rem, 11vw, 4.5rem);
+    line-height: 0.95;
+    text-align: center;
+  }
+
+  .hero-sub,
+  .hero p {
+    text-align: center;
+    max-width: 34ch;
+    margin: 1rem auto 0;
+  }
+
+  /* Metadata row */
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  /* ----- Projects mobile section parity ----- */
+  .projects-mobile {
+    position: relative;
+    min-height: 200vh;
+    padding: 0;
+  }
+
+  .projects-mobile .projects-pin-mobile {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .projects-mobile .projects-frame {
+    width: 90vw;
+    height: 60vh;
+    background: #000;
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center;
+  }
+
+  .projects-mobile video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .projects-mobile .projects-title-mobile {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 5;
+  }
+
+  .projects-title-mobile .small {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+
+  .projects-title-mobile h2 {
+    font-size: clamp(2.5rem, 14vw, 4.5rem);
+    margin: 0.25rem 0;
+    line-height: 0.9;
+  }
+
+  .projects-title-mobile .tags {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+}
+</style>
+
+<script>
+(function () {
+  if (window.innerWidth > 640) return;
+
+  function initMobileProjectsScroll() {
+    if (!window.gsap || !window.ScrollTrigger) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.querySelector(".projects-mobile");
+    if (!section) return;
+
+    let pin = section.querySelector(".projects-pin-mobile");
+    if (!pin) {
+      // Wrap existing content
+      const wrap = document.createElement("div");
+      wrap.className = "projects-pin-mobile";
+      while (section.firstChild) {
+        wrap.appendChild(section.firstChild);
+      }
+      section.appendChild(wrap);
+      pin = wrap;
+    }
+
+    let frame = pin.querySelector(".projects-frame");
+    let video = pin.querySelector("video");
+
+    if (!frame && video) {
+      frame = document.createElement("div");
+      frame.className = "projects-frame";
+      video.parentNode.insertBefore(frame, video);
+      frame.appendChild(video);
+    }
+
+    // Title overlay (desktop parity)
+    if (!section.querySelector(".projects-title-mobile")) {
+      const title = document.createElement("div");
+      title.className = "projects-title-mobile";
+      title.innerHTML = `
+        <div class="small">SOME SELECTED</div>
+        <h2>PROJECTS</h2>
+        <div class="tags">FRONT-END DEVELOPMENT &nbsp; AI AND ML</div>
+      `;
+      section.appendChild(title);
+    }
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "+=120%",
+        scrub: true,
+        pin: pin,
+        anticipatePin: 1
+      }
+    });
+
+    tl.fromTo(frame,
+      { scale: 1.1, borderRadius: "32px" },
+      { scale: 1, borderRadius: "18px", ease: "none" }
+    )
+    .fromTo(video,
+      { scale: 1.15 },
+      { scale: 1, ease: "none" },
+      0
+    );
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMobileProjectsScroll);
+  } else {
+    initMobileProjectsScroll();
+  }
+})();
+</script>
+<!-- =========================
+     END MOBILE ENHANCEMENTS
+     ========================= -->
+
 <body>
     <div class="isolation">
         <header>
