@@ -145,13 +145,10 @@
            z" />
                 </svg></span>
       </a>
-
-      <div class="m-actions">
-        <div class="color-btn" role="button" tabindex="0" aria-label="Change the mood">
-          <div class="color-btn-inner">change the mood</div>
-        </div>
-        <div class="contact-btn"><a href="mailto:contact@faazmohamed.com">CONTACT</a></div>
+      <div class="color-btn" role="button" tabindex="0" aria-label="Change the mood">
+        <div class="color-btn-inner">change the mood</div>
       </div>
+      <div class="contact-btn"><a href="mailto:contact@faazmohamed.com">CONTACT</a></div>
     </header>
 
     <main class="m-main">
@@ -220,7 +217,7 @@
             </div>
             <div class="m-card-actions">
               <a class="m-btn m-btn-primary" href="https://fuzzdot.github.io/fmStudio/" target="_blank" rel="noreferrer">Open</a>
-              <a class="m-btn" href="#m-contact">Hire me</a>
+              
             </div>
           </article>
 
@@ -233,26 +230,11 @@
               Institutional-grade AI evaluation & governance with traceability, audit artifacts, and provenance across distributed inference.
             </div>
             <div class="m-card-actions">
-              <a class="m-btn" href="mailto:contact@faazmohamed.com">Request details</a>
+              <a class="m-btn m-btn-primary" href="mailto:contact@faazmohamed.com">Open</a>
             </div>
           </article>
 
-          <article class="m-card m-card-media">
-            <div class="m-card-top">
-              <div class="m-card-title">Motion Systems</div>
-              <div class="m-card-tag">Scroll-driven</div>
-            </div>
-
-            <div class="m-card-media-frame">
-              <video class="m-video m-video-mini" playsinline muted loop preload="metadata">
-                <source src="SHOWREEL_CLA.4ddd3918.mp4" type="video/mp4">
-              </video>
-            </div>
-
-            <div class="m-card-body">
-              Mobile-first motion: lightweight, smooth, and readable — tuned for real devices.
-            </div>
-          </article>
+          
         </div>
       </section>
 
@@ -626,9 +608,8 @@
           </a>
         </div>
 
-        <footer class="m-footer">
-          <a class="m-footer-link" href="https://fuzzdot.github.io/fmStudio/" target="_blank" rel="noreferrer">Discover FM Studio →</a>
-          <div class="m-footer-note">In the US • Available for freelance</div>
+        <footer class="m-footer m-footer-center">
+          <div class="m-footer-note">© Faaz Mohamed 2026</div>
         </footer>
       </section>
     </main>
@@ -1377,6 +1358,19 @@
 })();
 </script>
 
+
+<script>
+(function(){
+  var v = document.querySelector('#mobile-app .m-reel-frame video');
+  if(!v) return;
+  v.addEventListener('click', function(){
+    if (v.requestFullscreen) v.requestFullscreen();
+    else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
+    else if (v.msRequestFullscreen) v.msRequestFullscreen();
+  });
+})();
+</script>
 </body>
+
 
 </html>

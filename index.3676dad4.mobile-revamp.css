@@ -1628,3 +1628,27 @@ footer a {
     text-transform: uppercase;
   }
 }
+
+
+@media (max-width: 640px) {
+  #mobile-app .m-topbar{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+  #mobile-app .color-btn{
+    justify-self: center;
+  }
+
+  /* Bigger hero title */
+  #mobile-app .m-title{
+    font-size: clamp(52px, 14vw, 88px);
+  }
+
+  /* Center footer */
+  #mobile-app .m-footer-center{
+    text-align: center;
+    border-top: 1px solid rgba(0,0,0,.35);
+    padding-top: 16px;
+  }
+}
