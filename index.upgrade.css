@@ -164,7 +164,7 @@ footer {
   --cv-count: 8;
   position: relative;
   z-index: 2;
-  min-height: calc((var(--cv-count) + 2) * 95svh);
+  min-height: calc((var(--cv-count) * 70svh) + 100svh);
   padding: 0 var(--gutter);
 }
 
@@ -187,7 +187,7 @@ footer {
   box-shadow: 0 34px 80px -52px color-mix(in srgb, var(--text-color) 46%, transparent 54%);
   padding: clamp(22px, 3vw, 34px);
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
   gap: clamp(10px, 1.5vw, 16px);
   overflow: hidden;
 }
@@ -220,6 +220,7 @@ footer {
 
 .cv-depth-stage {
   position: relative;
+  min-height: 0;
   perspective: 1400px;
   transform-style: preserve-3d;
   overflow: hidden;
@@ -241,19 +242,23 @@ footer {
 .cv-cards {
   position: relative;
   height: 100%;
-  min-height: min(52svh, 560px);
+  min-height: 0;
   transform-style: preserve-3d;
 }
 
 .cv-card {
   position: absolute;
-  inset: 8% auto auto 0;
-  width: min(100%, 740px);
-  border-radius: 22px;
-  padding: clamp(16px, 2vw, 24px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: clamp(18px, 2vw, 28px);
+  padding: clamp(24px, 4vw, 58px);
   border: 1px solid var(--upgrade-card-border);
   background: color-mix(in srgb, var(--upgrade-card-bg) 91%, transparent 9%);
   box-shadow: 0 28px 56px -34px color-mix(in srgb, var(--text-color) 48%, transparent 52%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   transform-origin: 50% 50%;
   will-change: transform, opacity;
 }
@@ -284,27 +289,29 @@ footer {
 
 .cv-card-title {
   font-family: Pp Neue Montreal Medium;
-  font-size: clamp(20px, 2.2vw, 34px);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-size: clamp(38px, 5.4vw, 92px);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
+  max-width: 11ch;
 }
 
 .cv-card-subtitle {
-  font-size: clamp(13px, 0.95vw, 16px);
-  margin-top: 6px;
+  font-size: clamp(16px, 1.35vw, 22px);
+  margin-top: clamp(8px, 1vw, 14px);
   opacity: 0.84;
 }
 
 .cv-card-details {
-  margin-top: 12px;
+  margin-top: clamp(14px, 1.8vw, 26px);
   display: grid;
-  gap: 7px;
+  gap: 9px;
+  max-width: 68ch;
 }
 
 .cv-card-detail {
-  font-size: clamp(12px, 0.9vw, 15px);
-  line-height: 1.46;
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.5;
   opacity: 0.88;
 }
 
@@ -367,11 +374,11 @@ footer {
 /* Responsive safeguards */
 @media (max-width: 991px) {
   .cv-timeline-section {
-    min-height: calc((var(--cv-count) + 2) * 90svh);
+    min-height: calc((var(--cv-count) * 64svh) + 90svh);
   }
 
   .cv-card {
-    width: min(100%, 680px);
+    width: 100%;
   }
 }
 

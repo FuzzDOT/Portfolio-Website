@@ -323,12 +323,12 @@
       cards.forEach(function (card, index) {
         var delta = index - position;
         var absDelta = Math.abs(delta);
-        var translateZ = 180 - absDelta * 280;
-        var translateY = delta * 74;
-        var translateX = delta * 10;
-        var rotateY = delta * -4;
-        var rotateX = delta * 1.3;
-        var scale = 1 - Math.min(absDelta * 0.09, 0.22);
+        var translateZ = absDelta * -220;
+        var translateY = delta * 42;
+        var translateX = delta * 8;
+        var rotateY = delta * -2;
+        var rotateX = delta * 0.6;
+        var scale = 1 - Math.min(absDelta * 0.05, 0.14);
         var opacity = Math.max(0, 1 - absDelta * 0.72);
 
         if (absDelta > 2.2) {
