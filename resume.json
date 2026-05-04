@@ -1,0 +1,151 @@
+{
+  "identity": {
+    "fullName": "Mohamed Faaz Mohamed Iqbal",
+    "headline": "Full Stack Developer | Pitt 28’",
+    "location": "Pittsburgh, Pennsylvania, United States",
+    "contact": {
+      "email": "contact@faazmohamed.com",
+      "linkedin": "https://www.linkedin.com/in/faazmohamed",
+      "portfolio": "https://faazmohamed.com"
+    }
+  },
+
+  "summary": {
+    "description": "I build AI systems and production ready software products designed for real world, high stakes decision making. My work sits at the intersection of AI/ML, systems engineering, and product execution; from architecting multimodal deep learning models and formal reasoning pipelines to shipping scalable platforms with strong guarantees around correctness, reproducibility, and trust.\n\nI’ve led and built:\n• Institutional grade AI systems for auditable financial solvency and risk evaluation, featuring pure function reasoning, immutable audit logs, and byte for byte replayability\n• Applied ML research in medical imaging and healthcare, including state of the art cancer detection models and publication in progress academic work\n• End to end software products spanning frontend, backend, and infrastructure; from modern, responsive interfaces to containerized, test driven backend services\n\nTechnically, I work across Python, FastAPI, PostgreSQL, React, and modern ML stacks (PyTorch, TensorFlow), with a strong emphasis on engineering discipline over hype.\n\nI’m currently building Adventura Labs, where I lead product development, engineering, fundraising, and go to market strategy, focused on AI systems that prioritize verifiability, safety, and real impact.\n\nI’m always open to conversations with builders, researchers, founders, and investors who care about shipping serious technology."
+  },
+
+  "skills": {
+    "core": [
+      "RISC-V",
+      "Customer Service",
+      "Information Technology"
+    ],
+    "technical": [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "React",
+      "PyTorch",
+      "TensorFlow",
+      "HTML5",
+      "CSS3",
+      "SCSS",
+      "BEM",
+      "JavaScript"
+    ]
+  },
+
+  "certifications": [
+    {
+      "name": "CompTIA Security+"
+    }
+  ],
+
+  "experience": [
+    {
+      "company": "Adventura Labs",
+      "role": "Chief Executive Officer",
+      "location": null,
+      "startDate": "December 2025",
+      "endDate": "Present",
+      "duration": "6 months",
+      "description": [
+        "Founded and leading Adventura Labs, defining company vision and product strategy while designing, building, and launching AI driven software products, translating complex technical ideas into scalable, market-ready solutions",
+        "Drove go to market execution and brand growth by leading marketing strategy, advertising campaigns, and digital presence, generating user traction and validating product market fit through data driven iteration",
+        "Spearheaded fundraising and investor outreach efforts by developing pitch materials, articulating technical and commercial value propositions, and engaging with prospective partners to secure capital and strategic support",
+        "Built and iterated core product infrastructure across frontend, backend, and AI systems, rapidly prototyping, testing, and refining features based on user feedback and performance metrics",
+        "Owned end to end company operations including roadmap planning, prioritization, and execution across engineering, marketing, and business development to accelerate growth from concept to execution"
+      ]
+    },
+
+    {
+      "company": "University of Pittsburgh",
+      "role": "Esports Attendant",
+      "location": "Pittsburgh, Pennsylvania, United States",
+      "startDate": "January 2026",
+      "endDate": "Present",
+      "duration": "5 months",
+      "description": [
+        "Ensured smooth daily operations of a university esports facility by preparing the space for opening and closing, managing equipment access and check outs, and maintaining a clean, organized environment for all participants.",
+        "Supported hundreds of student patrons by answering facility questions, enforcing Campus Recreation policies, conducting headcounts and inspections, and providing professional, on site assistance during operating hours.",
+        "Strengthened accountability and problem solving skills by independently monitoring facility safety, controlling access to rooms and equipment, and collaborating with Campus Recreation staff to resolve issues in real time."
+      ]
+    },
+
+    {
+      "company": "FM Studio",
+      "role": "Founder / Frontend Developer",
+      "location": "Malvern, Pennsylvania, United States",
+      "startDate": "February 2024",
+      "endDate": "December 2025",
+      "duration": "1 year 11 months",
+      "description": [
+        "Led end to end development of multimedia and digital marketing projects across graphic design, video production, and web experiences, driving a 25% increase in user engagement and a 15% lift in conversion rates using Adobe Creative Suite, HTML5, CSS3, and JavaScript frameworks.",
+        "Collaborated directly with clients to translate vision into execution, delivering tailored creative solutions through iterative feedback, clear communication, and consistent progress updates aligned with branding and marketing objectives.",
+        "Scaled studio growth through strategic business development initiatives, including client outreach, service pitching, and strengthening online presence, resulting in a 500% increase in new client acquisition."
+      ]
+    },
+
+    {
+      "company": "Freelance",
+      "role": "Frontend Developer",
+      "location": "Malvern, Pennsylvania, United States",
+      "startDate": "February 2024",
+      "endDate": "December 2025",
+      "duration": "1 year 11 months",
+      "description": [
+        "Designed, developed, and delivered 6 production grade websites using HTML5, CSS3 (SCSS, BEM), JavaScript, and React best practices, ensuring maintainable codebases, scalable architectures, and industry standard deliverables aligned with client requirements.",
+        "Drove significant performance improvements across client websites by refactoring code structure, implementing browser and server side caching, integrating Content Delivery Networks (CDNs), and applying image lazy loading strategies, achieving an average 34.2% reduction in page load times.",
+        "Modernized and optimized client web presences through SEO enhancements, fully responsive and accessible UI design, and cross platform compatibility, resulting in an average 15% increase in site traffic and improved user experience across devices."
+      ]
+    },
+
+    {
+      "company": "Dunkin'",
+      "role": "Crew Member",
+      "location": "Malvern, Pennsylvania, United States",
+      "startDate": "June 2025",
+      "endDate": "August 2025",
+      "duration": "3 months",
+      "description": [
+        "Recognized for leadership and operational excellence by being offered an assistant manager equivalent role within 3 weeks, demonstrating reliability, initiative, and high performance in a fast paced, customer facing environment.",
+        "Delivered consistent, high quality customer experiences by preparing food and beverages to strict brand standards while managing multiple orders efficiently under time pressure.",
+        "Resolved guest concerns with professionalism and urgency, maintaining a guest first atmosphere and ensuring positive outcomes through clear communication and effective problem solving.",
+        "Maintained operational readiness and safety by overseeing inventory organization, stock rotation, and workspace cleanliness, supporting compliance, efficiency, and smooth daily operations."
+      ]
+    }
+  ],
+
+  "education": [
+    {
+      "institution": "University of Pittsburgh",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "August 2025",
+      "endDate": "May 2028"
+    },
+    {
+      "institution": "Great Valley High School",
+      "startDate": "August 2021",
+      "endDate": "May 2025"
+    }
+  ],
+
+  "projects": [
+    {
+      "title": "VERITAS",
+      "description": "Deterministic truth evaluation and reporting platform emphasizing correctness, reproducibility, and auditability. Includes pure function reasoning, immutable trace logs, and replayable evaluation pipelines.",
+      "tags": ["AI", "Systems", "Backend", "Auditability"]
+    },
+    {
+      "title": "Medical Imaging AI Research",
+      "description": "Applied machine learning research focused on cancer detection models using deep learning, with publication in progress.",
+      "tags": ["Machine Learning", "Healthcare", "Research"]
+    },
+    {
+      "title": "Client Web Platforms",
+      "description": "Designed and deployed multiple production-grade websites with optimized performance, SEO improvements, and responsive UI/UX systems.",
+      "tags": ["Frontend", "Performance", "Web Dev"]
+    }
+  ]
+}
