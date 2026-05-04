@@ -294,6 +294,7 @@
     if (!section || REDUCED_MOTION_QUERY.matches) return;
 
     var cards = Array.prototype.slice.call(section.querySelectorAll(".cv-card"));
+    if (!cards.length) return;
     var progressLabel = section.querySelector(".cv-track-label");
     var rafId = 0;
 
@@ -302,8 +303,9 @@
       if (window.innerWidth <= MOBILE_TIMELINE_BREAKPOINT) return;
 
       var sectionRect = section.getBoundingClientRect();
+      if (sectionRect.bottom < 0 || sectionRect.top > window.innerHeight) return;
       var scrollableDistance = Math.max(section.offsetHeight - window.innerHeight, 1);
-      var rawProgress = (window.innerHeight * 0.5 - sectionRect.top) / scrollableDistance;
+      var rawProgress = -sectionRect.top / scrollableDistance;
       var progress = clamp(rawProgress, 0, 1);
 
       section.style.setProperty("--cv-progress", progress.toFixed(5));
@@ -321,20 +323,24 @@
       cards.forEach(function (card, index) {
         var delta = index - position;
         var absDelta = Math.abs(delta);
-        var translateZ = 330 - absDelta * 470;
-        var translateY = delta * 84;
-        var translateX = delta * -15;
-        var rotateY = delta * -7;
-        var rotateX = delta * 2.1;
-        var scale = 1 - Math.min(absDelta * 0.16, 0.58);
-        var opacity = 1 - Math.min(absDelta * 0.46, 0.88);
-        var blur = Math.min(absDelta * 7, 16);
+        var translateZ = 180 - absDelta * 280;
+        var translateY = delta * 74;
+        var translateX = delta * 10;
+        var rotateY = delta * -4;
+        var rotateX = delta * 1.3;
+        var scale = 1 - Math.min(absDelta * 0.09, 0.22);
+        var opacity = Math.max(0, 1 - absDelta * 0.72);
+
+        if (absDelta > 2.2) {
+          opacity = 0;
+        }
 
         card.style.transform =
           "translate3d(" + translateX.toFixed(2) + "px, " + translateY.toFixed(2) + "px, " + translateZ.toFixed(2) + "px) " +
           "rotateX(" + rotateX.toFixed(2) + "deg) rotateY(" + rotateY.toFixed(2) + "deg) scale(" + scale.toFixed(3) + ")";
         card.style.opacity = opacity.toFixed(3);
-        card.style.filter = "blur(" + blur.toFixed(2) + "px)";
+        card.style.filter = "none";
+        card.style.pointerEvents = absDelta < 0.75 ? "auto" : "none";
         card.style.zIndex = String(total - Math.round(absDelta * 10));
       });
     }
@@ -347,6 +353,7 @@
 
     window.addEventListener("scroll", queueRun, { passive: true });
     window.addEventListener("resize", queueRun);
+    window.addEventListener("orientationchange", queueRun);
     queueRun();
   }
 

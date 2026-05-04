@@ -12,6 +12,10 @@ body {
   overflow-x: clip;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -54,6 +58,12 @@ header {
 .m-contact-card,
 .footer-okeystudio a {
   min-height: 44px;
+}
+
+.contact-btn a,
+.m-btn,
+.m-contact-card,
+.footer-okeystudio a {
   min-width: 44px;
 }
 
@@ -127,14 +137,6 @@ footer {
   position: relative;
 }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: auto 8% -1px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--text-color) 34%, transparent 66%), transparent);
-}
-
 .projects-pin .video video,
 .projects-mobile .video video {
   border-radius: 16px;
@@ -162,7 +164,7 @@ footer {
   --cv-count: 8;
   position: relative;
   z-index: 2;
-  min-height: max(calc(var(--cv-count) * 75vh), 580vh);
+  min-height: calc((var(--cv-count) + 2) * 95svh);
   padding: 0 var(--gutter);
 }
 
@@ -239,7 +241,7 @@ footer {
 .cv-cards {
   position: relative;
   height: 100%;
-  min-height: min(49svh, 540px);
+  min-height: min(52svh, 560px);
   transform-style: preserve-3d;
 }
 
@@ -253,7 +255,7 @@ footer {
   background: color-mix(in srgb, var(--upgrade-card-bg) 91%, transparent 9%);
   box-shadow: 0 28px 56px -34px color-mix(in srgb, var(--text-color) 48%, transparent 52%);
   transform-origin: 50% 50%;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 
 .cv-card-header {
@@ -365,7 +367,7 @@ footer {
 /* Responsive safeguards */
 @media (max-width: 991px) {
   .cv-timeline-section {
-    min-height: max(calc(var(--cv-count) * 70vh), 500vh);
+    min-height: calc((var(--cv-count) + 2) * 90svh);
   }
 
   .cv-card {
@@ -431,6 +433,11 @@ footer {
   #mobile-app .contact-btn a,
   #mobile-app .color-btn {
     min-height: 46px;
+  }
+
+  #mobile-app .m-topbar .color-btn,
+  #mobile-app .m-topbar .color-btn-inner {
+    width: auto;
   }
 
   #mobile-app .m-cards,
