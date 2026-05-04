@@ -323,15 +323,15 @@
       cards.forEach(function (card, index) {
         var delta = index - position;
         var absDelta = Math.abs(delta);
-        var translateZ = absDelta * -220;
-        var translateY = delta * 42;
-        var translateX = delta * 8;
-        var rotateY = delta * -2;
-        var rotateX = delta * 0.6;
-        var scale = 1 - Math.min(absDelta * 0.05, 0.14);
-        var opacity = Math.max(0, 1 - absDelta * 0.72);
+        var translateZ = absDelta * -160;
+        var translateY = delta * 32;
+        var translateX = delta * 6;
+        var rotateY = delta * -1.5;
+        var rotateX = delta * 0.4;
+        var scale = 1 - Math.min(absDelta * 0.035, 0.08);
+        var opacity = Math.max(0, 1 - absDelta * 1.45);
 
-        if (absDelta > 2.2) {
+        if (absDelta > 0.78) {
           opacity = 0;
         }
 
