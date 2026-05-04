@@ -179,8 +179,9 @@ footer {
 
 .cv-timeline-surface {
   position: relative;
-  width: min(94vw, 1320px);
-  height: min(92svh, 860px);
+  width: calc(100vw - (var(--gutter) * 2));
+  height: calc(100svh - 64px);
+  min-height: 760px;
   border-radius: clamp(24px, 4vw, 44px);
   border: 1px solid var(--upgrade-card-border);
   background:
@@ -390,6 +391,10 @@ footer {
   .cv-card {
     width: 100%;
   }
+
+  .cv-timeline-surface {
+    min-height: 680px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -408,6 +413,7 @@ footer {
   .cv-timeline-surface {
     width: 100%;
     height: auto;
+    min-height: unset;
     border-radius: 24px;
     padding: 18px 14px;
     gap: 10px;
