@@ -22,7 +22,7 @@ export default function Footer({ onLinkHover }: FooterProps) {
           <div className={styles.kicker}>Contact</div>
           <h2 className={styles.heading}>LET'S<br />BUILD</h2>
           <p className={styles.sub}>
-            Contact me if you are interested!.<br />
+            Contact me if you are interested!<br />
             I'll respond fast.
           </p>
         </div>
