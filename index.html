@@ -10,7 +10,6 @@
     <link rel="icon shortcut" type="image/png" href="favicon.da5b5196.png">
     <link rel="stylesheet" href="index.3676dad4.mobile-revamp.css">
     <link rel="stylesheet" href="index.upgrade.css">
-    <link rel="stylesheet" href="index.scroll-animation.css">
     <title>Faaz Mohamed | Freelance Front-End developer - Creation of custom websites</title>
     <meta name="google" value="notranslate">
     <meta property="og:title" content="Faaz Mohamed | Freelance Front-End developer - Creation of custom websites">
@@ -158,9 +157,9 @@
         
 
         <h1 class="m-title">
-          <span class="m-title-line"><span class="m-title-inner">CREATIVE</span></span>
-          <span class="m-title-line"><span class="m-title-inner">WEB</span></span>
-          <span class="m-title-line"><span class="m-title-inner">DEVELOPER</span></span>
+          <span class="m-title-line">CREATIVE</span>
+          <span class="m-title-line">WEB</span>
+          <span class="m-title-line">DEVELOPER</span>
         </h1>
 
         <div class="m-sub">
@@ -196,171 +195,42 @@
         </div>
       </section>
 
-      <!-- SCROLL PROGRESS BAR -->
-      <div class="m-scroll-progress" aria-hidden="true"><div class="m-scroll-fill" id="mScrollFill"></div></div>
-
-      <!-- MOBILE STATS ROW -->
-      <div class="m-stat-row m-section-reveal" style="padding: 0 20px;">
-        <div class="m-stat-card">
-          <div class="m-stat-value">6+</div>
-          <div class="m-stat-label">Sites shipped</div>
-        </div>
-        <div class="m-stat-card">
-          <div class="m-stat-value">34%</div>
-          <div class="m-stat-label">Avg load time ↓</div>
-        </div>
-        <div class="m-stat-card">
-          <div class="m-stat-value">3</div>
-          <div class="m-stat-label">AI systems built</div>
-        </div>
-        <div class="m-stat-card">
-          <div class="m-stat-value">500%</div>
-          <div class="m-stat-label">Client growth</div>
-        </div>
-      </div>
-
-      <!-- MOBILE SKILLS SCROLL -->
-      <div class="m-section-reveal" style="padding: 0 20px; margin-bottom: 32px;">
-        <div class="m-kicker" style="margin-bottom:12px; padding:0;">Stack</div>
-        <div class="m-skills-scroll">
-          <span class="m-skill-tag">Python</span>
-          <span class="m-skill-tag">React</span>
-          <span class="m-skill-tag">FastAPI</span>
-          <span class="m-skill-tag">PyTorch</span>
-          <span class="m-skill-tag">PostgreSQL</span>
-          <span class="m-skill-tag">TensorFlow</span>
-          <span class="m-skill-tag">HTML5/CSS3</span>
-          <span class="m-skill-tag">JavaScript</span>
-          <span class="m-skill-tag">SCSS</span>
-          <span class="m-skill-tag">RISC-V</span>
-        </div>
-      </div>
-
-      <section class="m-proj-section m-section-reveal" id="m-work" aria-label="Selected work">
-        <div class="m-proj-section-head">
+      <section class="m-work" id="m-work" aria-label="Selected work">
+        <div class="m-section-title">
           <div class="m-kicker">Some selected</div>
-          <h2 style="font-family:'Pp Neue Montreal Medium',sans-serif; font-size:clamp(36px,10vw,56px); letter-spacing:-0.03em; text-transform:uppercase; line-height:0.95; margin: 4px 0 8px;">PROJECTS</h2>
-          <div style="font-size:13px; opacity:0.55; line-height:1.5;">Customer work &amp; personal experiments.</div>
+          <h2>PROJECTS</h2>
+          <div class="m-mini">Customer work & personal experiments.</div>
         </div>
 
-        <div class="m-proj-scroll-wrapper" id="mProjTrack">
-
-          <!-- Card 1: FM Studio -->
-          <article class="m-proj-card">
-            <div class="m-proj-card-media" style="font-size:52px; opacity:0.1; letter-spacing:-0.04em; font-family:'Pp Neue Montreal Medium',sans-serif;">FM</div>
-            <div class="m-proj-card-body">
-              <div class="m-proj-card-label">01 / Design → Build</div>
-              <div class="m-proj-card-title">FM Studio</div>
-              <div class="m-proj-card-desc">High-touch studio builds: modern UI, motion, performance, and polished delivery for clients across Music, IT, and Design.</div>
-              <div class="m-proj-card-tags">
-                <span class="m-proj-card-tag">Frontend</span>
-                <span class="m-proj-card-tag">Branding</span>
-                <span class="m-proj-card-tag">Motion</span>
-              </div>
-              <div class="m-proj-card-links">
-                <a class="m-proj-card-link m-proj-card-link-primary" href="https://fuzzdot.github.io/fmStudio/" target="_blank" rel="noreferrer">Open ↗</a>
-                <span class="m-proj-card-link m-proj-card-link-secondary m-proj-card-link-placeholder">GitHub</span>
-              </div>
+        <div class="m-cards">
+          <article class="m-card">
+            <div class="m-card-top">
+              <div class="m-card-title">FM Studio</div>
+              <div class="m-card-tag">Design → Build</div>
+            </div>
+            <div class="m-card-body">
+              High-touch studio builds: modern UI, motion, performance, and polished delivery.
+            </div>
+            <div class="m-card-actions">
+              <a class="m-btn m-btn-primary" href="https://fuzzdot.github.io/fmStudio/" target="_blank" rel="noreferrer">Open</a>
+              
             </div>
           </article>
 
-          <!-- Card 2: VERITAS -->
-          <article class="m-proj-card">
-            <div class="m-proj-card-media" style="font-size:36px; opacity:0.08; letter-spacing:-0.04em; font-family:'Pp Neue Montreal Medium',sans-serif; align-items:center; display:flex; justify-content:center;">VERITAS</div>
-            <div class="m-proj-card-body">
-              <div class="m-proj-card-label">02 / AI Systems</div>
-              <div class="m-proj-card-title">VERITAS</div>
-              <div class="m-proj-card-desc">Deterministic truth evaluation platform with pure function reasoning, immutable audit logs, and cryptographic replayability.</div>
-              <div class="m-proj-card-tags">
-                <span class="m-proj-card-tag">AI</span>
-                <span class="m-proj-card-tag">Backend</span>
-                <span class="m-proj-card-tag">Audit</span>
-              </div>
-              <div class="m-proj-card-links">
-                <a class="m-proj-card-link m-proj-card-link-primary" href="https://veritas-chi-ten.vercel.app/" target="_blank" rel="noreferrer">Open ↗</a>
-                <span class="m-proj-card-link m-proj-card-link-secondary m-proj-card-link-placeholder">GitHub</span>
-              </div>
+          <article class="m-card">
+            <div class="m-card-top">
+              <div class="m-card-title">AI Governance Platform</div>
+              <div class="m-card-tag">Deterministic eval</div>
+            </div>
+            <div class="m-card-body">
+              Institutional-grade AI evaluation & governance with traceability, audit artifacts, and provenance across distributed inference.
+            </div>
+            <div class="m-card-actions">
+              <a class="m-btn m-btn-primary" href="https://veritas-chi-ten.vercel.app/" target="_blank" rel="noreferrer">Open</a>
             </div>
           </article>
 
-          <!-- Card 3: Medical Imaging AI -->
-          <article class="m-proj-card">
-            <div class="m-proj-card-media" style="font-size:52px; opacity:0.08; font-family:'Pp Neue Montreal Medium',sans-serif; display:flex; align-items:center; justify-content:center;">🧬</div>
-            <div class="m-proj-card-body">
-              <div class="m-proj-card-label">03 / ML Research</div>
-              <div class="m-proj-card-title">Cancer AI</div>
-              <div class="m-proj-card-desc">Applied ML research in medical imaging — state-of-the-art cancer detection using deep learning. Publication in progress.</div>
-              <div class="m-proj-card-tags">
-                <span class="m-proj-card-tag">PyTorch</span>
-                <span class="m-proj-card-tag">Healthcare</span>
-                <span class="m-proj-card-tag">Research</span>
-              </div>
-              <div class="m-proj-card-links">
-                <span class="m-proj-card-link m-proj-card-link-primary m-proj-card-link-placeholder">Demo soon</span>
-                <span class="m-proj-card-link m-proj-card-link-secondary m-proj-card-link-placeholder">Paper WIP</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 4: Client Web Platforms -->
-          <article class="m-proj-card">
-            <div class="m-proj-card-media" style="font-size:36px; opacity:0.08; font-family:'Pp Neue Montreal Medium',sans-serif; display:flex; align-items:center; justify-content:center;">&lt;/&gt;</div>
-            <div class="m-proj-card-body">
-              <div class="m-proj-card-label">04 / Web Dev</div>
-              <div class="m-proj-card-title">6 Client Sites</div>
-              <div class="m-proj-card-desc">6 production-grade websites with 34.2% avg load time reduction, SEO enhancements, and responsive UI systems.</div>
-              <div class="m-proj-card-tags">
-                <span class="m-proj-card-tag">React</span>
-                <span class="m-proj-card-tag">SCSS</span>
-                <span class="m-proj-card-tag">Performance</span>
-              </div>
-              <div class="m-proj-card-links">
-                <span class="m-proj-card-link m-proj-card-link-primary m-proj-card-link-placeholder">Various</span>
-                <span class="m-proj-card-link m-proj-card-link-secondary m-proj-card-link-placeholder">GitHub</span>
-              </div>
-            </div>
-          </article>
-
-        </div><!-- /m-proj-scroll-wrapper -->
-
-        <!-- Pagination dots -->
-        <div class="m-proj-dots" aria-hidden="true">
-          <span class="m-proj-dot active"></span>
-          <span class="m-proj-dot"></span>
-          <span class="m-proj-dot"></span>
-          <span class="m-proj-dot"></span>
-        </div>
-      </section>
-
-      <!-- MOBILE EXPERIENCE TIMELINE -->
-      <section class="m-section-reveal" style="padding: 48px 20px;" aria-label="Experience">
-        <div class="m-kicker" style="margin-bottom:16px;">Experience</div>
-        <h2 style="font-family:'Pp Neue Montreal Medium',sans-serif; font-size:clamp(36px,10vw,56px); letter-spacing:-0.03em; text-transform:uppercase; line-height:0.95; margin-bottom:32px;">HISTORY</h2>
-        <div class="m-timeline">
-          <div class="m-timeline-item">
-            <div class="m-timeline-period">Dec 2025 – Present</div>
-            <div class="m-timeline-role">CEO & Founder</div>
-            <div class="m-timeline-company">Adventura Labs</div>
-            <div class="m-timeline-desc">Building AI-driven software products. Leading product, engineering, fundraising &amp; GTM.</div>
-          </div>
-          <div class="m-timeline-item">
-            <div class="m-timeline-period">Aug 2025 – Present</div>
-            <div class="m-timeline-role">CS Student</div>
-            <div class="m-timeline-company">University of Pittsburgh '28</div>
-            <div class="m-timeline-desc">Bachelor of Science in Computer Science.</div>
-          </div>
-          <div class="m-timeline-item">
-            <div class="m-timeline-period">Feb 2024 – Dec 2025</div>
-            <div class="m-timeline-role">Founder / Frontend Dev</div>
-            <div class="m-timeline-company">FM Studio</div>
-            <div class="m-timeline-desc">Led end-to-end multimedia &amp; digital marketing projects. 500% client acquisition growth.</div>
-          </div>
-          <div class="m-timeline-item">
-            <div class="m-timeline-period">Feb 2024 – Dec 2025</div>
-            <div class="m-timeline-role">Freelance Developer</div>
-            <div class="m-timeline-company">Self-employed</div>
-            <div class="m-timeline-desc">6 production websites shipped. Avg 34.2% load time reduction.</div>
-          </div>
+          
         </div>
       </section>
 
@@ -1314,190 +1184,79 @@
                             </span>
                         </p>
                     </section>
-                    <!-- ══════════════════════════════════════════
-                         APPLE-STYLE PROJECTS SCROLL SEQUENCE
-                         ══════════════════════════════════════════ -->
-                    <section class="projects projects-sequence" id="projects-seq"
-                             style="height: calc(5 * 100svh + 100svh);" aria-label="Selected projects">
-
-                      <!-- Sticky overlay: section label + counter -->
-                      <div class="proj-section-header" aria-hidden="true">
-                        <span class="proj-section-label">Selected projects</span>
-                        <span class="proj-section-num">
-                          <span class="proj-current-num">01</span>
-                          <span style="opacity:0.4;"> / 05</span>
-                        </span>
-                      </div>
-
-                      <!-- Sticky viewport -->
-                      <div class="projects-sequence-sticky">
-
-                        <!-- ── SLIDE 0: Section intro ── -->
-                        <div class="proj-slide" data-anim="zoom" style="opacity:1; visibility:visible; pointer-events:auto;">
-                          <div class="proj-slide-inner layout-full">
-                            <div class="proj-slide-content" style="align-items:center;">
-                              <p class="proj-slide-index">Some selected</p>
-                              <h2 class="proj-slide-title" style="font-size:clamp(52px,8vw,120px); text-align:center;">PROJECTS</h2>
-                              <p class="proj-slide-desc" style="text-align:center; margin:0 auto;">
-                                Front-end development · AI &amp; ML · Systems engineering.<br>
-                                Scroll to explore.
-                              </p>
-                              <div class="scroll-hint">
-                                <span class="scroll-hint-text">Scroll</span>
-                                <span class="scroll-hint-line"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- ── SLIDE 1: FM Studio ── -->
-                        <div class="proj-slide" data-anim="slide-left">
-                          <div class="proj-slide-inner layout-media-left" data-tilt>
-                            <div class="proj-slide-media">
-                              <div class="proj-slide-media-placeholder"
-                                   style="font-family:'Pp Neue Montreal Medium',sans-serif; letter-spacing:-0.04em; color:var(--text-color);">FM</div>
-                            </div>
-                            <div class="proj-slide-content">
-                              <p class="proj-slide-index">01 — Design → Build</p>
-                              <h3 class="proj-slide-title">FM<br>Studio</h3>
-                              <p class="proj-slide-desc">High-touch studio builds: modern UI, motion, performance, and polished delivery for clients across Music, IT, and Design industries.</p>
-                              <div class="proj-slide-details">
-                                <div class="proj-slide-detail">500% increase in new client acquisition</div>
-                                <div class="proj-slide-detail">25% increase in user engagement</div>
-                                <div class="proj-slide-detail">15% lift in conversion rates</div>
-                              </div>
-                              <div class="proj-slide-tags">
-                                <span class="proj-tag">Frontend</span>
-                                <span class="proj-tag">Branding</span>
-                                <span class="proj-tag">Motion</span>
-                              </div>
-                              <div class="proj-slide-links">
-                                <a class="proj-link proj-link-primary" href="https://fuzzdot.github.io/fmStudio/" target="_blank" rel="noreferrer">
-                                  <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                  Open site
-                                </a>
-                                <span class="proj-link proj-link-secondary proj-link-placeholder">GitHub (soon)</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- ── SLIDE 2: VERITAS ── -->
-                        <div class="proj-slide" data-anim="rotate3d">
-                          <div class="proj-slide-inner" data-tilt>
-                            <div class="proj-slide-content">
-                              <p class="proj-slide-index">02 — AI Systems · Auditability</p>
-                              <h3 class="proj-slide-title">VERITAS</h3>
-                              <p class="proj-slide-desc">Institutional-grade, deterministic AI evaluation and governance platform. Pure function reasoning, immutable audit logs, and byte-for-byte replayable pipelines.</p>
-                              <div class="proj-stat">
-                                <div class="proj-stat-item">
-                                  <div class="proj-stat-value">100%</div>
-                                  <div class="proj-stat-label">Deterministic</div>
+                    <section class="projects">
+                        <div class="projects-pin">
+                            <div class="title-ctn">
+                                <div class="title">
+                                    <div class="title-before">
+                                        <div class="title-before-text">Some <br>selected</div>
+                                        <div class="title-square"></div>
+                                    </div>
+                                    <h2><span class="gl-text">PROJECTS</span></h2>
+                                    <div class="title-after">
+                                        <div class="title-after-text">Front-End Development <br>AI and ML</div>
+                                        <div class="arrow-ctn"> <svg width="16" height="16" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 16 16">
+                                                <path class="classic-stroke" d="M3.89062 11.8906L11.3272 4.45406"
+                                                    stroke="black"></path>
+                                                <path class="classic-stroke" d="M3.54688 4.45312H11.325V12.2313"
+                                                    stroke="black"></path>
+                                            </svg> </div>
+                                    </div>
                                 </div>
-                                <div class="proj-stat-item">
-                                  <div class="proj-stat-value">∞</div>
-                                  <div class="proj-stat-label">Replayability</div>
-                                </div>
-                              </div>
-                              <div class="proj-slide-tags">
-                                <span class="proj-tag">AI</span>
-                                <span class="proj-tag">Backend</span>
-                                <span class="proj-tag">Systems</span>
-                                <span class="proj-tag">Auditability</span>
-                              </div>
-                              <div class="proj-slide-links">
-                                <a class="proj-link proj-link-primary" href="https://veritas-chi-ten.vercel.app/" target="_blank" rel="noreferrer">
-                                  <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                  Open platform
-                                </a>
-                                <span class="proj-link proj-link-secondary proj-link-placeholder">GitHub (soon)</span>
-                              </div>
+                                <div class="subtitle"> Customer projects and Personal projects.</div>
+                                <div class="project-arrow"> <span>(</span> <svg width="16" height="16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        viewbox="0 0 16 16">
+                                        <path class="classic-stroke" d="M3.89062 11.8906L11.3272 4.45406"
+                                            stroke="black"></path>
+                                        <path class="classic-stroke" d="M3.54688 4.45312H11.325V12.2313" stroke="black">
+                                        </path>
+                                    </svg> <span>)</span> </div>
                             </div>
-                            <div class="proj-slide-media">
-                              <div class="proj-slide-media-placeholder"
-                                   style="font-family:'Pp Neue Montreal Medium',sans-serif; font-size:clamp(28px,5vw,52px); letter-spacing:-0.04em; color:var(--text-color);">VERITAS</div>
-                            </div>
-                          </div>
+                            <div class="video"> <video playsinline autoplay muted loop>
+                                    <source src="SHOWREEL_CLA.4ddd3918.mp4" type="video/mp4">
+                                </video> </div>
                         </div>
-
-                        <!-- ── SLIDE 3: Medical Imaging AI ── -->
-                        <div class="proj-slide" data-anim="slide-right">
-                          <div class="proj-slide-inner layout-media-left" data-tilt>
-                            <div class="proj-slide-media">
-                              <div class="proj-slide-media-placeholder" style="color:var(--text-color);">🧬</div>
-                            </div>
-                            <div class="proj-slide-content">
-                              <p class="proj-slide-index">03 — ML Research · Healthcare</p>
-                              <h3 class="proj-slide-title">Medical<br>Imaging<br>AI</h3>
-                              <p class="proj-slide-desc">Applied deep learning research focused on cancer detection models using state-of-the-art architectures. Academic publication in progress.</p>
-                              <div class="proj-slide-details">
-                                <div class="proj-slide-detail">State-of-the-art detection accuracy</div>
-                                <div class="proj-slide-detail">Publication in progress</div>
-                                <div class="proj-slide-detail">PyTorch · TensorFlow · Medical datasets</div>
-                              </div>
-                              <div class="proj-slide-tags">
-                                <span class="proj-tag">Machine Learning</span>
-                                <span class="proj-tag">Healthcare</span>
-                                <span class="proj-tag">Research</span>
-                                <span class="proj-tag">PyTorch</span>
-                              </div>
-                              <div class="proj-slide-links">
-                                <span class="proj-link proj-link-primary proj-link-placeholder">Demo soon</span>
-                                <span class="proj-link proj-link-secondary proj-link-placeholder">Paper WIP</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- ── SLIDE 4: Client Web Platforms ── -->
-                        <div class="proj-slide" data-anim="parallax-up">
-                          <div class="proj-slide-inner" data-tilt>
-                            <div class="proj-slide-content">
-                              <p class="proj-slide-index">04 — Web Dev · Performance</p>
-                              <h3 class="proj-slide-title">6 Client<br>Platforms</h3>
-                              <p class="proj-slide-desc">Designed, developed, and deployed 6 production-grade websites with measurable results across performance, SEO, and user experience.</p>
-                              <div class="proj-stat">
-                                <div class="proj-stat-item">
-                                  <div class="proj-stat-value">34.2%</div>
-                                  <div class="proj-stat-label">Faster loads</div>
+                        <div class="projects-scroll">
+                            <div class="projects-scroll-inner">
+                                <!-- <div class="project-line project-line-1">
+                                    <div class="project-img project-img-1"> <img loading="lazy"
+                                            src="Ticket.45ddd14e.webp" alt="Clarisse product ticket presentation">
+                                    </div>
+                                </div> -->
+                                <div class="project-line project-line-2">
+                                    <div class="project-img project-img-3"> <img loading="lazy"
+                                            src="senteur-Okey.13b3091d.webp" alt="Car fragrance okeystudio"> </div>
+                                    <div class="project-img project-img-4"> <img loading="lazy"
+                                            src="ticket_1.01debaae.webp"
+                                            alt="Other ticket presentation"> </div>
                                 </div>
-                                <div class="proj-stat-item">
-                                  <div class="proj-stat-value">+15%</div>
-                                  <div class="proj-stat-label">Site traffic</div>
+                                <!-- <div class="project-line project-line-3">
+                                    <div class="project-img project-img-5"> <img loading="lazy"
+                                            src="BD-Okey.7c6eb241.webp" alt="Comic strip featuring the Okey Studio">
+                                    </div>
+                                    <div class="project-img project-img-6"> 
+                                        <img loading="lazy" src="OkeyStudio.4cc0675b.webp" alt="Okeystudio website home screen"> 
+                                        <img loading="lazy" src="timbre.a8ce1df8.webp" class="absolute-img-1" alt="Stamp okeystudio"> </div>
+                                </div> -->
+                                <div class="project-line project-line-4">
+                                    <div class="project-img project-img-7"> <img loading="lazy"
+                                            src="Cercle-Fleche-01.f3d104f2.svg" alt="arrow">
+                                        <div class="absolute-img-2"> <img loading="lazy"
+                                                src="Texte-Cercle-01.060802af.svg" alt="text around arrow"> </div>
+                                    </div>
+                                    <div class="project-img project-img-8"> <img loading="lazy"
+                                            src="logo-chrome.6e6cf1e6.webp" alt="Clarisse asian logo in chrome"> </div>
                                 </div>
-                                <div class="proj-stat-item">
-                                  <div class="proj-stat-value">6</div>
-                                  <div class="proj-stat-label">Live sites</div>
+                                <div class="project-line project-line-5">
+                                    <div class="project-img project-img-9"> <img loading="lazy"
+                                            src="ticker-paper.dab2a991.webp" alt="Illustration of a purchase order">
+                                    </div>
                                 </div>
-                              </div>
-                              <div class="proj-slide-tags">
-                                <span class="proj-tag">React</span>
-                                <span class="proj-tag">SCSS / BEM</span>
-                                <span class="proj-tag">CDN</span>
-                                <span class="proj-tag">SEO</span>
-                              </div>
-                              <div class="proj-slide-links">
-                                <span class="proj-link proj-link-primary proj-link-placeholder">Various clients</span>
-                                <span class="proj-link proj-link-secondary proj-link-placeholder">GitHub (soon)</span>
-                              </div>
                             </div>
-                            <div class="proj-slide-media">
-                              <div class="proj-slide-media-placeholder"
-                                   style="font-family:'Pp Neue Montreal Medium',sans-serif; font-size:clamp(24px,4vw,44px); letter-spacing:-0.04em; color:var(--text-color);">&lt;/&gt;</div>
-                            </div>
-                          </div>
                         </div>
-
-                        <!-- Progress dots -->
-                        <div class="proj-dots" aria-hidden="true">
-                          <span class="proj-dot active"></span>
-                          <span class="proj-dot"></span>
-                          <span class="proj-dot"></span>
-                          <span class="proj-dot"></span>
-                          <span class="proj-dot"></span>
-                        </div>
-
-                      </div><!-- /projects-sequence-sticky -->
                     </section>
                     <section class="projects-mobile">
                         <div class="projects-pin-mobile">
@@ -1608,55 +1367,6 @@
 })();
 </script>
 <script defer src="index.upgrade.js"></script>
-<script defer src="index.scroll-animation.js"></script>
-<script>
-// Mobile scroll progress bar
-(function(){
-  var fill = document.getElementById('mScrollFill');
-  if(!fill) return;
-  window.addEventListener('scroll', function(){
-    var scrolled = window.scrollY;
-    var total = document.documentElement.scrollHeight - window.innerHeight;
-    fill.style.width = (total > 0 ? (scrolled/total)*100 : 0) + '%';
-  }, {passive: true});
-})();
-
-// Mobile project dots scroll sync
-(function(){
-  var track = document.getElementById('mProjTrack');
-  if(!track) return;
-  var cards = track.querySelectorAll('.m-proj-card');
-  var dots = document.querySelectorAll('.m-proj-dot');
-  track.addEventListener('scroll', function(){
-    var idx = Math.round(track.scrollLeft / (track.scrollWidth / cards.length));
-    dots.forEach(function(d,i){ d.classList.toggle('active', i===idx); });
-  }, {passive:true});
-})();
-
-// Mobile section reveal
-(function(){
-  var els = document.querySelectorAll('#mobile-app .m-section-reveal');
-  if(!els.length) return;
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
-    });
-  }, {threshold:0.08});
-  els.forEach(function(el){ io.observe(el); });
-})();
-
-// Desktop projects sequence in-view tracking for dots overlay
-(function(){
-  var seq = document.getElementById('projects-seq');
-  if(!seq) return;
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      seq.classList.toggle('in-view', e.isIntersecting);
-    });
-  }, {threshold:0.01});
-  io.observe(seq);
-})();
-</script>
 </body>
 
 
