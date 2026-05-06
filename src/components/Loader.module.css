@@ -1,0 +1,81 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s var(--ease-expo), transform 0.8s var(--ease-expo);
+}
+
+.loaderExit {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+/* Fix 1: column centered, all children align center */
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Fix 2: logo container is just wide enough for FM text, no overflow */
+
+.logo {
+  color: var(--text);
+  width: 200px; /* Match barWrap width */
+  height: 36px;
+  animation: logoPulse 1.5s ease-in-out infinite;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+@keyframes logoPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* Fix 1: barWrap stacks bar + percent centered */
+.barWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 200px; /* Match logo width */
+}
+
+.bar {
+  width: 200px;
+  height: 1px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--text);
+  transition: width 0.08s linear;
+}
+
+.percent {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-weight: 400;
+  white-space: pre;
+  /* explicitly centered */
+  text-align: center;
+}

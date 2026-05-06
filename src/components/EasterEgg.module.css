@@ -1,0 +1,81 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  z-index: 99997;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.overlayShow {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 20px;
+  padding: 40px 56px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: modalIn 0.4s var(--ease-bounce);
+}
+
+@keyframes modalIn {
+  from { transform: scale(0.8) translateY(20px); }
+  to { transform: scale(1) translateY(0); }
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.emoji {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.tiny {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-subtle);
+  margin-top: 4px;
+}
+
+.dismiss {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin-top: 16px;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}

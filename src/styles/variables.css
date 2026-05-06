@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════
+   VARIABLES — Faaz Mohamed Portfolio v2
+   ═══════════════════════════════════════════ */
+
+:root {
+  /* Default: Light */
+  --bg: #f0ebe5;
+  --text: #0a0a0a;
+  --text-muted: rgba(10,10,10,0.45);
+  --text-subtle: rgba(10,10,10,0.28);
+  --accent: #0a0a0a;
+  --accent-inv: #f0ebe5;
+  --border: rgba(10,10,10,0.10);
+  --border-strong: rgba(10,10,10,0.22);
+  --surface: rgba(10,10,10,0.04);
+  --surface-hover: rgba(10,10,10,0.08);
+  --tag-bg: rgba(10,10,10,0.07);
+  --tag-text: rgba(10,10,10,0.75);
+  --cursor-color: #0a0a0a;
+  --cursor-mix: multiply;
+  --scrollbar: rgba(10,10,10,0.2);
+  --grain-opacity: 0.025;
+  --loader-bg: #0a0a0a;
+  --loader-text: #f0ebe5;
+  
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Typography */
+  --font-sans: 'PP Neue Montreal', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing */
+  --nav-h: 64px;
+  --section-px: clamp(24px, 5vw, 80px);
+  --section-py: clamp(80px, 12vh, 140px);
+}
+
+/* ── MOOD THEMES ── */
+[data-mood="dark"] {
+  --bg: #0a0a0a;
+  --text: #f0ebe5;
+  --text-muted: rgba(240,235,229,0.45);
+  --text-subtle: rgba(240,235,229,0.28);
+  --accent: #f0ebe5;
+  --accent-inv: #0a0a0a;
+  --border: rgba(240,235,229,0.10);
+  --border-strong: rgba(240,235,229,0.22);
+  --surface: rgba(240,235,229,0.04);
+  --surface-hover: rgba(240,235,229,0.08);
+  --tag-bg: rgba(240,235,229,0.09);
+  --tag-text: rgba(240,235,229,0.7);
+  --cursor-color: #f0ebe5;
+  --cursor-mix: screen;
+  --scrollbar: rgba(240,235,229,0.2);
+  --grain-opacity: 0.04;
+  --loader-bg: #f0ebe5;
+  --loader-text: #0a0a0a;
+}
+
+[data-mood="blue"] {
+  --bg: #0b0f2a;
+  --text: #e8efff;
+  --text-muted: rgba(232,239,255,0.45);
+  --text-subtle: rgba(232,239,255,0.28);
+  --accent: #6b8aff;
+  --accent-inv: #0b0f2a;
+  --border: rgba(107,138,255,0.15);
+  --border-strong: rgba(107,138,255,0.3);
+  --surface: rgba(107,138,255,0.06);
+  --surface-hover: rgba(107,138,255,0.12);
+  --tag-bg: rgba(107,138,255,0.12);
+  --tag-text: #a0b5ff;
+  --cursor-color: #6b8aff;
+  --cursor-mix: screen;
+  --scrollbar: rgba(107,138,255,0.3);
+  --grain-opacity: 0.03;
+}
+
+[data-mood="green"] {
+  --bg: #050f0a;
+  --text: #b8ffda;
+  --text-muted: rgba(184,255,218,0.45);
+  --text-subtle: rgba(184,255,218,0.28);
+  --accent: #00e87a;
+  --accent-inv: #050f0a;
+  --border: rgba(0,232,122,0.15);
+  --border-strong: rgba(0,232,122,0.3);
+  --surface: rgba(0,232,122,0.05);
+  --surface-hover: rgba(0,232,122,0.1);
+  --tag-bg: rgba(0,232,122,0.1);
+  --tag-text: #00e87a;
+  --cursor-color: #00e87a;
+  --cursor-mix: screen;
+  --scrollbar: rgba(0,232,122,0.3);
+  --grain-opacity: 0.03;
+}
+
+[data-mood="red"] {
+  --bg: #100505;
+  --text: #ffe8e8;
+  --text-muted: rgba(255,232,232,0.45);
+  --text-subtle: rgba(255,232,232,0.28);
+  --accent: #ff4040;
+  --accent-inv: #100505;
+  --border: rgba(255,64,64,0.15);
+  --border-strong: rgba(255,64,64,0.3);
+  --surface: rgba(255,64,64,0.05);
+  --surface-hover: rgba(255,64,64,0.1);
+  --tag-bg: rgba(255,64,64,0.1);
+  --tag-text: #ff8080;
+  --cursor-color: #ff4040;
+  --cursor-mix: screen;
+  --scrollbar: rgba(255,64,64,0.3);
+  --grain-opacity: 0.03;
+}
+
+[data-mood="gold"] {
+  --bg: #0d0b04;
+  --text: #fff5c0;
+  --text-muted: rgba(255,245,192,0.45);
+  --text-subtle: rgba(255,245,192,0.28);
+  --accent: #ffd700;
+  --accent-inv: #0d0b04;
+  --border: rgba(255,215,0,0.15);
+  --border-strong: rgba(255,215,0,0.3);
+  --surface: rgba(255,215,0,0.05);
+  --surface-hover: rgba(255,215,0,0.1);
+  --tag-bg: rgba(255,215,0,0.1);
+  --tag-text: #ffd700;
+  --cursor-color: #ffd700;
+  --cursor-mix: screen;
+  --scrollbar: rgba(255,215,0,0.3);
+  --grain-opacity: 0.03;
+}

@@ -1,0 +1,84 @@
+.cursorRoot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transition: opacity 0.3s;
+}
+
+.dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--cursor-color);
+  border-radius: 50%;
+  top: -3px;
+  left: -3px;
+  transition: width 0.2s, height 0.2s, background 0.3s;
+  mix-blend-mode: var(--cursor-mix);
+}
+
+.dotHidden {
+  opacity: 0;
+}
+
+.dotLink {
+  width: 4px;
+  height: 4px;
+  top: -2px;
+  left: -2px;
+  opacity: 0.5;
+}
+
+.ring {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--cursor-color);
+  border-radius: 50%;
+  top: -18px;
+  left: -18px;
+  transition: width 0.25s var(--ease-expo), height 0.25s var(--ease-expo),
+              top 0.25s var(--ease-expo), left 0.25s var(--ease-expo),
+              border-color 0.3s;
+  mix-blend-mode: var(--cursor-mix);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ringGif {
+  width: 120px;
+  height: 120px;
+  top: -60px;
+  left: -60px;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  overflow: hidden;
+}
+
+.ringLink {
+  width: 72px;
+  height: 72px;
+  top: -36px;
+  left: -36px;
+  background: var(--accent);
+  mix-blend-mode: normal;
+}
+
+.gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.viewText {
+  color: var(--accent-inv);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

@@ -1,0 +1,93 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 48px);
+  transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
+  border-bottom: 1px solid transparent;
+}
+
+.scrolled {
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--border);
+}
+
+.logo {
+  color: var(--text);
+  opacity: 0.85;
+  transition: opacity 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+}
+.logo:hover { opacity: 1; transform: scale(1.08); }
+
+.center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Fix 2: simple pill button, no dropdown — click cycles moods */
+.moodBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--surface);
+  transition: all 0.2s;
+}
+.moodBtn:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
+}
+.moodBtn:active {
+  transform: scale(0.96);
+}
+
+.moodDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.3s var(--ease-bounce);
+}
+.moodBtn:hover .moodDot {
+  transform: scale(1.5);
+}
+
+.right {}
+
+.contactBtn {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  padding: 8px 18px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  transition: all 0.2s;
+}
+.contactBtn:hover {
+  background: var(--accent);
+  color: var(--accent-inv);
+  border-color: var(--accent);
+}
