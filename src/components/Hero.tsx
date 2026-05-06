@@ -70,7 +70,7 @@ export default function Hero({ onGifChange, onLinkHover }: HeroProps) {
           <div className={styles.subtitleLeft}>
             <span className={styles.nameTag}>Faaz Mohamed</span>
             <span className={styles.subtitleText}>
-              CS & Data Science @ Pitt · Builder of AI systems · NSF Research Fellow
+              CS & Data Science @ Pitt · NSF Research Fellow · AI Systems Engineer 
             </span>
           </div>
 
@@ -101,8 +101,8 @@ export default function Hero({ onGifChange, onLinkHover }: HeroProps) {
             <div className={styles.stackLine}>& WEB</div>
             <div className={styles.stackLine}>DEV</div>
             <p className={styles.tagline}>
-              Freelance developer and researcher building deterministic AI,
-              multimodal systems, and production-grade web platforms.
+              Full stack developer and researcher building deterministic AI,
+              multimodal systems, and production grade web platforms.
             </p>
           </div>
         </div>

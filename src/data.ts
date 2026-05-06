@@ -20,12 +20,12 @@ export const PROJECTS: Project[] = [
     category: 'AI Systems · Auditability',
     title: 'VERITAS',
     titleLines: ['VERITAS'],
-    description: 'Institutional-grade deterministic AI evaluation and governance platform. Pure function reasoning, immutable audit logs, and byte-for-byte replayable pipelines enabling cryptographic accountability in high-stakes decisions.',
+    description: 'Institutional grade deterministic AI evaluation and governance platform. Pure function reasoning, immutable audit logs, and byte for byte replayable pipelines enabling cryptographic accountability in high stakes decisions.',
     details: [
       '400+ automated tests, 70%+ coverage',
       '95% reduction in invalid evaluations',
-      'Sub-200ms latency under high throughput',
-      'FastAPI · PostgreSQL · S3-compatible storage',
+      'Sub 200ms latency under high throughput',
+      'FastAPI · PostgreSQL · S3 compatible storage',
     ],
     tags: ['AI', 'FastAPI', 'PostgreSQL', 'Docker', 'Python'],
     stats: [
@@ -34,7 +34,7 @@ export const PROJECTS: Project[] = [
       { value: '95%', label: 'Error reduction' },
     ],
     links: [
-      { label: 'Open platform', url: 'https://veritas-chi-ten.vercel.app/' },
+      { label: 'Website', url: 'https://veritas-chi-ten.vercel.app/' },
       { label: 'GitHub', url: 'https://github.com/FuzzDOT/VERITAS' },
     ],
     mediaText: 'VERITAS',
@@ -45,7 +45,7 @@ export const PROJECTS: Project[] = [
     category: 'ML Research · Interpretability',
     title: 'Mechanistic Transformer',
     titleLines: ['Mechanistic', 'Transformer'],
-    description: 'Built a 10M+ parameter transformer language model from scratch — tokenization, positional embeddings, multi-head attention, gradient-based optimization — plus a full interpretability toolkit for mechanistic analysis.',
+    description: 'Built a 10M+ parameter transformer language model from scratch — tokenization, positional embeddings, multi head attention, gradient based optimization — plus a full interpretability toolkit for mechanistic analysis.',
     details: [
       '10M+ parameters built from scratch',
       '30% reduction in validation loss',
@@ -58,7 +58,7 @@ export const PROJECTS: Project[] = [
       { value: '30%', label: 'Loss reduction' },
     ],
     links: [
-      { label: 'GitHub', url: 'https://github.com/FuzzDOT' },
+      { label: 'GitHub', placeholder: true },
     ],
     mediaText: '∇',
   },
@@ -68,11 +68,11 @@ export const PROJECTS: Project[] = [
     category: 'Systems · Infrastructure',
     title: 'Vector Database',
     titleLines: ['Distributed', 'Vector DB'],
-    description: 'Designed and implemented a vector database with custom graph-based ANN indexing. Sub-50ms query latency on 100K+ embeddings with concurrent query pipelines sustaining 1,000+ QPS.',
+    description: 'Designed and implemented a vector database with custom graph based ANN indexing. Sub 50ms query latency on 100K+ embeddings with concurrent query pipelines sustaining 1,000+ QPS.',
     details: [
-      'Sub-50ms query latency on 100K+ embeddings',
+      'Sub 50ms query latency on 100K+ embeddings',
       '1,000+ queries per second sustained',
-      'Custom graph-based ANN indexing',
+      'Custom graph based ANN indexing',
       'RAG pipeline integration ready',
     ],
     tags: ['Systems', 'C++', 'Python', 'Distributed Systems', 'Database'],
@@ -82,7 +82,7 @@ export const PROJECTS: Project[] = [
       { value: '100K+', label: 'Embeddings' },
     ],
     links: [
-      { label: 'GitHub', url: 'https://github.com/FuzzDOT' },
+      { label: 'GitHub', placeholder: true },
     ],
     mediaText: '⊗',
   },
@@ -92,7 +92,7 @@ export const PROJECTS: Project[] = [
     category: 'ML Research · Healthcare',
     title: 'Dr. Help',
     titleLines: ['Dr. Help'],
-    description: 'Multimodal clinical decision support AI integrating text, image, and structured symptom data into unified medical reasoning. Shared preprocessing pipeline enables reliable cross-modal inference.',
+    description: 'Multimodal clinical decision support AI integrating text, image, and structured symptom data into unified medical reasoning. Shared preprocessing pipeline enables reliable cross modal inference.',
     details: [
       'Multimodal: text + image + structured data',
       'Unified preprocessing pipeline',
@@ -101,8 +101,8 @@ export const PROJECTS: Project[] = [
     ],
     tags: ['PyTorch', 'Multimodal AI', 'Healthcare', 'Python', 'Research'],
     links: [
-      { label: 'Demo soon', placeholder: true },
-      { label: 'Paper WIP', placeholder: true },
+      { label: 'GitHub', url: 'https://github.com/FuzzDOT/drhelp' },
+      { label: 'Paper W.I.P', placeholder: true },
     ],
     mediaEmoji: '🧬',
   },
@@ -112,7 +112,7 @@ export const PROJECTS: Project[] = [
     category: 'ML Research · Published',
     title: 'Smile Saviors',
     titleLines: ['Smile', 'Saviors'],
-    description: 'Ensemble deep learning model for oral cancer detection combining Vision Transformers and ResNet architectures. Achieved >99% classification accuracy on 950 medical images. Co-authored 9-page academic paper.',
+    description: 'Ensemble deep learning model for oral cancer detection combining Vision Transformers and ResNet architectures. Achieved >99% classification accuracy on 950 medical images. Co authored 9-page academic paper.',
     details: [
       '>99% classification accuracy',
       '950-image balanced dataset',
@@ -126,7 +126,9 @@ export const PROJECTS: Project[] = [
       { value: '9pg', label: 'Paper' },
     ],
     links: [
-      { label: 'Paper (WIP)', placeholder: true },
+      { label: 'Poster', url: 'https://drive.google.com/file/d/1FjBaf4ET1Lxd6D_29N0LE3WuTTTSw2aT/view?usp=sharing' },
+      { label: 'Paper', url: 'https://drive.google.com/file/d/19OdhiNO8CBlDEzgTXQRiYhLCms5U374n/view' },
+      { label: 'GitHub', url: 'https://github.com/Mehta-AIMLResearchBootcamp24/Smile-Savior' },
     ],
     mediaText: '○',
   },
@@ -136,7 +138,7 @@ export const PROJECTS: Project[] = [
     category: 'Web Dev · Production',
     title: '6 Client Platforms',
     titleLines: ['6 Client', 'Platforms'],
-    description: 'Designed and deployed 6 production-grade websites using React, SCSS/BEM, and modern performance techniques. Delivered measurable improvements across load time, SEO, and user engagement.',
+    description: 'Designed and deployed 6 production grade websites using React, SCSS/BEM, and modern performance techniques. Delivered measurable improvements across load time, SEO, and user engagement.',
     details: [
       '6 production sites, 100% client approval',
       '34% avg load time reduction',
@@ -195,14 +197,14 @@ export const EXPERIENCE = [
     role: 'AI Developer',
     company: 'NSF ExLAIM Research Internship',
     location: 'Raleigh, NC',
-    desc: 'Selected for competitive NSF-funded program (<30 participants). Evaluated LLMs on 10,000+ sample datasets; built data pipelines analyzing 100+ structured interviews.',
+    desc: 'Selected for competitive NSF funded program (<30 participants). Evaluated LLMs on 10,000+ sample datasets; built data pipelines analyzing 100+ structured interviews.',
   },
   {
     period: 'Dec 2025 – Present',
     role: 'CEO & Founder',
     company: 'Adventura Labs',
     location: 'Pittsburgh, PA',
-    desc: 'Building AI-driven software products. Leading product, engineering, fundraising, and go-to-market strategy.',
+    desc: 'Building AI driven software products. Leading product, engineering, fundraising, and go to market strategy.',
   },
   {
     period: 'Dec 2025 – Present',

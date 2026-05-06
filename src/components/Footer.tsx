@@ -22,7 +22,7 @@ export default function Footer({ onLinkHover }: FooterProps) {
           <div className={styles.kicker}>Contact</div>
           <h2 className={styles.heading}>LET'S<br />BUILD</h2>
           <p className={styles.sub}>
-            Drop a line with project details.<br />
+            Contact me if you are interested!.<br />
             I'll respond fast.
           </p>
         </div>
@@ -81,8 +81,8 @@ export default function Footer({ onLinkHover }: FooterProps) {
           <span>© Faaz Mohamed 2026</span>
           <span className={styles.sep}>·</span>
           <span>Pittsburgh, PA</span>
-          <span className={styles.sep}>·</span>
-          <span>Will not need visa sponsorship</span>
+          {/* <span className={styles.sep}>·</span>
+          <span>Will not need visa sponsorship</span> */}
         </div>
         <div className={styles.bottomRight}>
           <span className={styles.builtWith}>Built with React + TypeScript</span>

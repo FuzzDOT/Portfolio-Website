@@ -62,7 +62,7 @@ export default function About({ onGifHover }: AboutProps) {
               a deterministic AI evaluation engine
             </span>
             <span className={styles.textLine}>
-              with cryptographic auditability for high-stakes decisions.
+              with cryptographic auditability for high stakes decisions.
             </span>
           </p>
 
@@ -99,13 +99,13 @@ export default function About({ onGifHover }: AboutProps) {
               <span className={styles.statSub}>Expected graduation · Univ. of Pittsburgh</span>
             </div>
             <div className={styles.statRow}>
-              <span className={styles.statBig}>6+</span>
-              <span className={styles.statSub}>Sites shipped</span>
+              <span className={styles.statBig}>11+</span>
+              <span className={styles.statSub}>Projects shipped</span>
             </div>
           </div>
 
           <div className={styles.hobbies}>
-            {['Code', 'ML Research', 'Books', 'Tennis', 'Pickleball', 'Soccer', 'Filming', 'Editing'].map(h => (
+            {['Code', 'ML Research', 'Books', 'Football', 'Soccer', 'Badminton', 'Pickleball', 'Cinematography'].map(h => (
               <div key={h} className={styles.hobby}>{h}</div>
             ))}
           </div>
