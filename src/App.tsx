@@ -8,6 +8,7 @@ import About from './components/About'
 import Experience from './components/Experience'
 import Footer from './components/Footer'
 import EasterEgg from './components/EasterEgg'
+import BlockScreen from './components/BlockScreen';
 import { MOODS, EASTER_EGGS, type Mood } from './data'
 
 export default function App() {
@@ -67,6 +68,7 @@ export default function App() {
 
   return (
     <>
+      <BlockScreen />
       {!loaded && <Loader onComplete={() => setLoaded(true)} />}
 
       {/* Fix 5: only pass gifSrc — Cursor detects links itself */}

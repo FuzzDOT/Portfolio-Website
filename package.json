@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "postbuild": "node copy-cname.js",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && node copy-cname.js && gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.2.0",

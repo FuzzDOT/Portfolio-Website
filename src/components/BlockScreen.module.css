@@ -1,0 +1,103 @@
+.blockScreen {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--background, #0a0a0a);
+  color: var(--primary, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  transition: background 0.3s;
+}
+
+.content {
+  text-align: center;
+  max-width: 90vw;
+  padding: 2rem 1.5rem;
+  background: rgba(20, 20, 20, 0.85);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  font-size: 1.15rem;
+  margin-bottom: 2.5rem;
+  color: var(--secondary, #b3b3b3);
+}
+
+.animatedText {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-top: 2rem;
+  display: inline-block;
+  transition: all 0.7s cubic-bezier(.4,2,.6,1);
+}
+
+/* Animation Variants */
+.fade {
+  opacity: 0.2;
+  animation: fadeInOut 1.8s infinite;
+}
+@keyframes fadeInOut {
+  0% { opacity: 0.2; }
+  40% { opacity: 1; }
+  60% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+.slide {
+  transform: translateY(-30px);
+  animation: slideIn 1.8s infinite;
+}
+@keyframes slideIn {
+  0% { transform: translateY(-30px); opacity: 0.2; }
+  30% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(30px); opacity: 0.2; }
+}
+
+.zoom {
+  transform: scale(0.8);
+  animation: zoomIn 1.8s infinite;
+}
+@keyframes zoomIn {
+  0% { transform: scale(0.8); opacity: 0.2; }
+  40% { transform: scale(1.1); opacity: 1; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0.2; }
+}
+
+.rotate {
+  transform: rotate(-8deg);
+  animation: rotateIn 1.8s infinite;
+}
+@keyframes rotateIn {
+  0% { transform: rotate(-8deg) scale(0.95); opacity: 0.2; }
+  40% { transform: rotate(0deg) scale(1.05); opacity: 1; }
+  60% { transform: rotate(0deg) scale(1.05); opacity: 1; }
+  100% { transform: rotate(8deg) scale(0.95); opacity: 0.2; }
+}
+
+.color {
+  color: #ffb347;
+  animation: colorPulse 1.8s infinite;
+}
+@keyframes colorPulse {
+  0% { color: #ffb347; opacity: 0.2; }
+  40% { color: #00e6e6; opacity: 1; }
+  60% { color: #00e6e6; opacity: 1; }
+  100% { color: #ffb347; opacity: 0.2; }
+}
