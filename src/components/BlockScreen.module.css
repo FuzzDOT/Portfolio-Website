@@ -1,103 +1,223 @@
+/* ══════════════════════════════════════════════════
+   BlockScreen — matches faazmohamed.com design language
+   Uses all site CSS vars: --bg, --text, --text-muted,
+   --text-subtle, --accent, --accent-inv, --border,
+   --border-strong, --surface, --surface-hover,
+   --font-sans, --font-mono, --ease-expo, --ease-bounce
+══════════════════════════════════════════════════ */
+
 .blockScreen {
   position: fixed;
-  z-index: 9999;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: var(--background, #0a0a0a);
-  color: var(--primary, #fff);
+  z-index: 99999;
+  inset: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: default;
+
+  /* Enter animation */
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-expo, cubic-bezier(.16,1,.3,1));
+}
+
+.blockScreenVisible {
+  opacity: 1;
+}
+
+/* ── Grain (matches body::before in global.css) ── */
+.grain {
+  position: absolute;
+  inset: -200%;
+  width: 400%;
+  height: 400%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: var(--grain-opacity, 0.025);
+  pointer-events: none;
+  animation: grain 0.5s steps(2) infinite;
+}
+
+@keyframes grain {
+  0%,100% { transform: translate(0,0); }
+  25%      { transform: translate(-2%,-1%); }
+  50%      { transform: translate(1%,2%); }
+  75%      { transform: translate(-1%,1%); }
+}
+
+/* ── Content column ── */
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
   flex-direction: column;
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
-  transition: background 0.3s;
+  align-items: flex-start;
+  padding: clamp(28px, 8vw, 48px);
+  width: min(88vw, 400px);
+  gap: 0; /* controlled via margins below */
+
+  /* Entrance slide */
+  opacity: 0;
+  transform: translateY(24px);
+  animation: innerIn 0.7s 0.15s var(--ease-expo, cubic-bezier(.16,1,.3,1)) forwards;
 }
 
-.content {
-  text-align: center;
-  max-width: 90vw;
-  padding: 2rem 1.5rem;
-  background: rgba(20, 20, 20, 0.85);
-  border-radius: 2rem;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+@keyframes innerIn {
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.title {
-  font-size: 2.2rem;
+/* ── FM wordmark ── */
+.wordmark {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  margin-bottom: 28px;
+  opacity: 0.85;
+}
+
+/* ── Horizontal rule ── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-strong);
+  margin-bottom: 32px;
+}
+
+/* ── Big heading — matches hero style ── */
+.heading {
+  font-size: clamp(52px, 14vw, 80px);
   font-weight: 700;
-  margin-bottom: 1.2rem;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 24px;
 }
 
-.subtitle {
-  font-size: 1.15rem;
-  margin-bottom: 2.5rem;
-  color: var(--secondary, #b3b3b3);
+/* ── Body copy ── */
+.body {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-muted);
+  max-width: 280px;
+  margin-bottom: 28px;
 }
 
-.animatedText {
-  font-size: 1.5rem;
+/* ── URL tag with breathing pulse ── */
+.urlTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  background: var(--surface);
+  margin-bottom: 28px;
+}
+
+.urlDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00c864;
+  flex-shrink: 0;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%,100% { opacity: 0.6; transform: scale(0.9); }
+  50%      { opacity: 1;   transform: scale(1.2); }
+}
+
+.urlText {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #00c864;
+  animation: breathe 3s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+/* ── Share action buttons ── */
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  margin-top: 2rem;
-  display: inline-block;
-  transition: all 0.7s cubic-bezier(.4,2,.6,1);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-expo, cubic-bezier(.16,1,.3,1));
+  border: 1px solid transparent;
+  white-space: nowrap;
 }
 
-/* Animation Variants */
-.fade {
-  opacity: 0.2;
-  animation: fadeInOut 1.8s infinite;
+/* Primary: filled accent */
+.btnPrimary {
+  background: var(--accent);
+  color: var(--accent-inv);
+  border-color: var(--accent);
 }
-@keyframes fadeInOut {
-  0% { opacity: 0.2; }
-  40% { opacity: 1; }
-  60% { opacity: 1; }
-  100% { opacity: 0.2; }
+.btnPrimary:hover {
+  opacity: 0.82;
+  transform: scale(0.97);
 }
-
-.slide {
-  transform: translateY(-30px);
-  animation: slideIn 1.8s infinite;
-}
-@keyframes slideIn {
-  0% { transform: translateY(-30px); opacity: 0.2; }
-  30% { transform: translateY(0); opacity: 1; }
-  70% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(30px); opacity: 0.2; }
+.btnPrimary:active {
+  transform: scale(0.94);
 }
 
-.zoom {
-  transform: scale(0.8);
-  animation: zoomIn 1.8s infinite;
+/* Secondary: outlined */
+.btnSecondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border-strong);
 }
-@keyframes zoomIn {
-  0% { transform: scale(0.8); opacity: 0.2; }
-  40% { transform: scale(1.1); opacity: 1; }
-  60% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(0.8); opacity: 0.2; }
+.btnSecondary:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+  color: var(--accent);
 }
-
-.rotate {
-  transform: rotate(-8deg);
-  animation: rotateIn 1.8s infinite;
-}
-@keyframes rotateIn {
-  0% { transform: rotate(-8deg) scale(0.95); opacity: 0.2; }
-  40% { transform: rotate(0deg) scale(1.05); opacity: 1; }
-  60% { transform: rotate(0deg) scale(1.05); opacity: 1; }
-  100% { transform: rotate(8deg) scale(0.95); opacity: 0.2; }
+.btnSecondary:active {
+  transform: scale(0.96);
 }
 
-.color {
-  color: #ffb347;
-  animation: colorPulse 1.8s infinite;
+/* Success state for copy button */
+.btnSuccess {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+  animation: successPop 0.25s var(--ease-bounce, cubic-bezier(.34,1.56,.64,1));
 }
-@keyframes colorPulse {
-  0% { color: #ffb347; opacity: 0.2; }
-  40% { color: #00e6e6; opacity: 1; }
-  60% { color: #00e6e6; opacity: 1; }
-  100% { color: #ffb347; opacity: 0.2; }
+
+@keyframes successPop {
+  from { transform: scale(0.9); }
+  to   { transform: scale(1); }
+}
+
+/* ── Bottom meta line ── */
+.meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
 }
