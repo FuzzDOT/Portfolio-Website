@@ -30,7 +30,7 @@ export default function About({ onGifHover }: AboutProps) {
               I'm Faaz, a{' '}
               <span
                 className={`${styles.highlight} ${styles.hovGif}`}
-                onMouseEnter={() => onGifHover('/assets/picto4.f8e89447.gif')}
+                onMouseEnter={() => onGifHover('/picto4.f8e89447.gif')}
                 onMouseLeave={() => onGifHover(undefined)}
               >CS & Data Science student</span>
               {' '}at the University of Pittsburgh
@@ -50,7 +50,7 @@ export default function About({ onGifHover }: AboutProps) {
               I founded{' '}
               <span
                 className={`${styles.bold} ${styles.hovGif}`}
-                onMouseEnter={() => onGifHover('/assets/picto1.cb395c31.gif')}
+                onMouseEnter={() => onGifHover('/picto1.cb395c31.gif')}
                 onMouseLeave={() => onGifHover(undefined)}
               >
                 <a href="https://fuzzdot.github.io/fmStudio/" target="_blank" rel="noreferrer">FM Studio</a>
@@ -74,7 +74,7 @@ export default function About({ onGifHover }: AboutProps) {
               filming, editing, and{' '}
               <span
                 className={styles.hovGif}
-                onMouseEnter={() => onGifHover('/assets/picto2.40854ceb.gif')}
+                onMouseEnter={() => onGifHover('/picto2.40854ceb.gif')}
                 onMouseLeave={() => onGifHover(undefined)}
               >building things that matter.</span>
             </span>

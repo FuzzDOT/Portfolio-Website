@@ -157,26 +157,26 @@ export const PROJECTS: Project[] = [
 ];
 
 export const HELLO_GIFS = [
-  { src: '/assets/1.e3e58c57.gif', alt: 'Forest Gump waves hello' },
-  { src: '/assets/2.a6927a93.gif', alt: 'The grinch turns' },
-  { src: '/assets/3.1feac4ad.gif', alt: 'Spock makes his sign' },
-  { src: '/assets/4.e0dea947.gif', alt: 'Someone beckons' },
-  { src: '/assets/5.e08aa619.gif', alt: 'Jim Carrey scotch tape' },
-  { src: '/assets/6.8b35ecac.gif', alt: 'DiCaprio hello' },
-  { src: '/assets/7.6c73d1b1.gif', alt: 'Jim Carrey bow' },
-  { src: '/assets/8.3d56f037.gif', alt: 'Max waving hello' },
-  { src: '/assets/9.2e0f7da2.gif', alt: 'Nicolas Cage saluting' },
-  { src: '/assets/10.d7d7a877.gif', alt: 'Confetti' },
-  { src: '/assets/11.c4b49577.gif', alt: 'Penguin waving' },
-  { src: '/assets/12.968a48bf.gif', alt: 'Dancing robot' },
-  { src: '/assets/13.c7c5871c.gif', alt: 'John Travolta kiss' },
+  { src: '/1.e3e58c57.gif', alt: 'Forest Gump waves hello' },
+  { src: '/2.a6927a93.gif', alt: 'The grinch turns' },
+  { src: '/3.1feac4ad.gif', alt: 'Spock makes his sign' },
+  { src: '/4.e0dea947.gif', alt: 'Someone beckons' },
+  { src: '/5.e08aa619.gif', alt: 'Jim Carrey scotch tape' },
+  { src: '/6.8b35ecac.gif', alt: 'DiCaprio hello' },
+  { src: '/7.6c73d1b1.gif', alt: 'Jim Carrey bow' },
+  { src: '/8.3d56f037.gif', alt: 'Max waving hello' },
+  { src: '/9.2e0f7da2.gif', alt: 'Nicolas Cage saluting' },
+  { src: '/10.d7d7a877.gif', alt: 'Confetti' },
+  { src: '/11.c4b49577.gif', alt: 'Penguin waving' },
+  { src: '/12.968a48bf.gif', alt: 'Dancing robot' },
+  { src: '/13.c7c5871c.gif', alt: 'John Travolta kiss' },
 ];
 
 export const HOVER_GIFS = [
-  { src: '/assets/picto1.cb395c31.gif', alt: 'WWW Diskette' },
-  { src: '/assets/picto2.40854ceb.gif', alt: 'Dwayne Johnson muscles' },
-  { src: '/assets/picto3.9b420ad1.gif', alt: 'Neo reading the matrix' },
-  { src: '/assets/picto4.f8e89447.gif', alt: 'Cat typing' },
+  { src: '/picto1.cb395c31.gif', alt: 'WWW Diskette' },
+  { src: '/picto2.40854ceb.gif', alt: 'Dwayne Johnson muscles' },
+  { src: '/picto3.9b420ad1.gif', alt: 'Neo reading the matrix' },
+  { src: '/picto4.f8e89447.gif', alt: 'Cat typing' },
 ];
 
 export const MOODS = ['light', 'dark', 'blue', 'green', 'red', 'gold'] as const;
