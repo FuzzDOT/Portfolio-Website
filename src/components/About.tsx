@@ -40,7 +40,7 @@ export default function About({ onGifHover }: AboutProps) {
             </span>
             <span className={styles.textLine}>
               and{' '}
-              <span className={styles.italic}>high-performance</span>
+              <span className={styles.italic}>high performance</span>
               {' '}software engineering.
             </span>
           </p>

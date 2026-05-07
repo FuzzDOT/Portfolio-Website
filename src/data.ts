@@ -188,7 +188,7 @@ export const SKILLS = {
   'Languages': ['Python', 'Java', 'C', 'C++', 'JavaScript', 'TypeScript'],
   'ML & AI': ['PyTorch', 'TensorFlow', 'Transformers', 'Model Evaluation', 'Mechanistic Interp.'],
   'Backend & Systems': ['FastAPI', 'REST APIs', 'Async I/O', 'Microservices', 'PostgreSQL'],
-  'Infrastructure': ['AWS (SAA-C03)', 'Docker', 'Linux', 'Git', 'CI/CD', 'S3'],
+  'Infrastructure': ['AWS (SAP-C02)', 'Docker', 'Linux', 'Git', 'CI/CD', 'S3'],
 };
 
 export const EXPERIENCE = [
@@ -197,7 +197,7 @@ export const EXPERIENCE = [
     role: 'AI Developer',
     company: 'NSF ExLAIM Research Internship',
     location: 'Raleigh, NC',
-    desc: 'Selected for competitive NSF funded program (<30 participants). Evaluated LLMs on 10,000+ sample datasets; built data pipelines analyzing 100+ structured interviews.',
+    desc: 'Selected for competitive NSF funded program (<10 participants). Evaluated LLMs on 10,000+ sample datasets; built data pipelines analyzing 100+ structured interviews.',
   },
   {
     period: 'Dec 2025 – Present',
