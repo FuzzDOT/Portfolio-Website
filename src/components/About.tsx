@@ -25,6 +25,7 @@ export default function About({ onGifHover }: AboutProps) {
       <div className={styles.grid}>
         {/* Prose */}
         <div className={styles.proseCol}>
+          {/* Paragraph 1 — who / angle */}
           <p className={styles.prose}>
             <span className={styles.textLine}>
               I'm Faaz, a{' '}
@@ -33,18 +34,25 @@ export default function About({ onGifHover }: AboutProps) {
                 onMouseEnter={() => onGifHover('/picto4.f8e89447.gif')}
                 onMouseLeave={() => onGifHover(undefined)}
               >CS & Data Science student</span>
-              {' '}at the University of Pittsburgh
+              {' '}at the University of Pittsburgh.
             </span>
             <span className={styles.textLine}>
-              specializing in AI systems, machine learning research,
+              I build{' '}
+              <span className={styles.italic}>ML systems</span>
+              {' '}and study whether they actually do
             </span>
             <span className={styles.textLine}>
-              and{' '}
-              <span className={styles.italic}>high performance</span>
-              {' '}software engineering.
+              what they claim to — through{' '}
+              <span className={styles.bold}>interpretability</span>,{' '}
+              <span className={styles.bold}>eval infrastructure</span>,
+            </span>
+            <span className={styles.textLine}>
+              and systems engineering that makes AI behavior{' '}
+              <span className={styles.underline}>verifiable</span>.
             </span>
           </p>
 
+          {/* Paragraph 2 — what / projects */}
           <p className={styles.prose} style={{ marginTop: '24px' }}>
             <span className={styles.textLine}>
               I founded{' '}
@@ -55,33 +63,45 @@ export default function About({ onGifHover }: AboutProps) {
               >
                 <a href="https://fuzzdot.github.io/fmStudio/" target="_blank" rel="noreferrer">FM Studio</a>
               </span>
-              {' '}and am building
+              {' '}and built{' '}
+              <span className={styles.underline}>VERITAS</span>:
             </span>
             <span className={styles.textLine}>
-              <span className={styles.underline}>VERITAS</span>,
-              a deterministic AI evaluation engine
+              a deterministic AI evaluation engine with cryptographic
             </span>
             <span className={styles.textLine}>
-              with cryptographic auditability for high stakes decisions.
+              audit trails — because high-stakes AI decisions
+            </span>
+            <span className={styles.textLine}>
+              should be{' '}
+              <span className={styles.italic}>reproducible, not just plausible</span>.
             </span>
           </p>
 
+          {/* Paragraph 3 — the thread */}
           <p className={styles.prose} style={{ marginTop: '24px' }}>
             <span className={styles.textLine}>
-              In my free time: tennis, pickleball, soccer, reading,
+              VexDB, the mechanistic transformer, VERITAS —
             </span>
             <span className={styles.textLine}>
-              filming, editing, and{' '}
+              they're{' '}
               <span
                 className={styles.hovGif}
                 onMouseEnter={() => onGifHover('/picto2.40854ceb.gif')}
                 onMouseLeave={() => onGifHover(undefined)}
-              >building things that matter.</span>
+              >the same question from different angles</span>:
+            </span>
+            <span className={styles.textLine}>
+              can you build a system whose behavior you can
+            </span>
+            <span className={styles.textLine}>
+              <span className={styles.italic}>actually</span>{' '}
+              understand and trust?
             </span>
           </p>
         </div>
 
-        {/* Fix 6: stats box — GPA removed, NSF first, then grad year with live pill */}
+        {/* Stats + hobbies */}
         <div className={styles.rightCol}>
           <div className={styles.statsBlock}>
             <div className={styles.statRow}>

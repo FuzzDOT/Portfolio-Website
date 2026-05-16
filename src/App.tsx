@@ -5,6 +5,7 @@ import Nav from './components/Nav'
 import Hero from './components/Hero'
 import ProjectSequence from './components/ProjectSequence'
 import About from './components/About'
+import Writing from './components/Writing'
 import Experience from './components/Experience'
 import Footer from './components/Footer'
 import EasterEgg from './components/EasterEgg'
@@ -61,9 +62,6 @@ export default function App() {
     }
   }, [logoClickCount])
 
-  // Fix 5: Cursor manages its own link-hover state internally via elementFromPoint.
-  // Hero/Footer onLinkHover props are no longer needed for cursor — kept as no-ops
-  // so we don't have to refactor those component signatures.
   const noop = useCallback(() => {}, [])
 
   return (
@@ -71,7 +69,6 @@ export default function App() {
       <BlockScreen />
       {!loaded && <Loader onComplete={() => setLoaded(true)} />}
 
-      {/* Fix 5: only pass gifSrc — Cursor detects links itself */}
       <Cursor gifSrc={cursorGif} />
 
       {easterEgg && (
@@ -97,6 +94,8 @@ export default function App() {
         <About onGifHover={setCursorGif} />
 
         <ProjectSequence onLinkHover={noop} />
+
+        <Writing onLinkHover={noop} />
 
         <Experience />
 
