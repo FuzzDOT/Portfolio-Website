@@ -22,11 +22,11 @@ export const PROJECTS: Project[] = [
     title: 'VexDB',
     titleLines: ['VexDB'],
     description:
-      'High performance vector database written in C++20 from scratch. Custom HNSW graph index, SIMD-accelerated distance kernels for AVX2 and NEON, two-phase lock-free batch construction, and a concurrent query pipeline. Not a wrapper around any existing library — every layer from the storage engine to the graph index is original code.',
+      'High performance vector database written in C++20 from scratch. Custom HNSW graph index, SIMD accelerated distance kernels for AVX2 and NEON, two phase lock free batch construction, and a concurrent query pipeline. Not a wrapper around any existing library — every layer from the storage engine to the graph index is original code.',
     narrative:
-      'The goal was to understand approximate nearest-neighbour search at the implementation level, not just the API level. That meant writing the neighbour-selection heuristic, the layer-assignment math, and the bidirectional edge-shrinking algorithm directly from the 2018 Malkov & Yashunin paper. The hardest problem was parallelisation: standard HNSW construction is sequential because inserting node N requires a graph that already contains nodes 0 through N-1. The solution was a two-phase approach — Phase 1 allocates all node structs under a single brief write lock in microseconds; Phase 2 runs beam search and edge connection entirely on per-node mutexes, letting all worker threads operate simultaneously with no deadlock risk. The design decision to pass embeddings via an EmbeddingFetcher callback rather than a direct store reference means the index has no compile-time dependency on storage — a choice that made the test suite clean and would allow GPU buffer backends without touching index code.',
+      'The goal was to understand approximate nearest neighbour search at the implementation level, not just the API level. That meant writing the neighbour selection heuristic, the layer assignment math, and the bidirectional edge shrinking algorithm directly from the 2018 Malkov & Yashunin paper. The hardest problem was parallelisation: standard HNSW construction is sequential because inserting node N requires a graph that already contains nodes 0 through N 1. The solution was a two phase approach — Phase 1 allocates all node structs under a single brief write lock in microseconds; Phase 2 runs beam search and edge connection entirely on per node mutexes, letting all worker threads operate simultaneously with no deadlock risk. The design decision to pass embeddings via an EmbeddingFetcher callback rather than a direct store reference means the index has no compile time dependency on storage — a choice that made the test suite clean and would allow GPU buffer backends without touching index code.',
     details: [
-      '24,319 vectors/sec insert throughput on Apple Silicon (M-series, 14 cores, dim=384)',
+      '24,319 vectors/sec insert throughput on Apple Silicon (M series, 14 cores, dim=384)',
       '4,678 QPS at 0.21ms p50 latency on 10k vectors — 9.5x parallel speedup over serial construction',
       'O(log n) scaling confirmed experimentally: 10x data causes only 1.6x latency increase',
       'AVX2 + NEON SIMD kernels; all 28 Catch2 tests pass clean under ThreadSanitizer',
@@ -44,21 +44,47 @@ export const PROJECTS: Project[] = [
     mediaText: '⊗',
   },
   {
+    id: 'transformer',
+    index: '03',
+    category: 'ML Research · Interpretability',
+    title: 'Mechanistic Transformer',
+    titleLines: ['Mechanistic', 'Transformer'],
+    description:
+      'Built a 10M+ parameter transformer language model from scratch — tokenization, positional embeddings, multi head attention, gradient based optimization — without high level model libraries. Paired with a full mechanistic interpretability toolkit: attention visualization, activation probing, and gradient attribution, used to run controlled ablation experiments isolating the contribution of depth and attention heads to validation loss.',
+    narrative:
+      'Building the model from scratch was a prerequisite for trusting the interpretability results. If you use a library\'s attention implementation, you do not know exactly what the attention patterns mean. Writing every component made it possible to instrument precisely: probing activations at specific layers, zeroing out individual heads, and attributing gradient signal to specific components. The 30% validation loss reduction via ablation experiments was not a lucky hyperparameter search — it was the result of understanding which architectural choices were doing real work and which were not. The toolkit produces attention heatmaps, layer by layer activation distributions, and gradient attribution maps that show where the model\'s predictions come from.',
+    details: [
+      '10M+ parameters built from scratch, no high level libraries (raw PyTorch)',
+      '30% validation loss reduction via targeted ablation experiments',
+      'Attention visualization, per layer activation probing, gradient attribution',
+      'Controlled scaling experiments across architectures and training regimes',
+    ],
+    tags: ['PyTorch', 'Transformers', 'Interpretability', 'Python', 'ML Research'],
+    stats: [
+      { value: '10M+', label: 'Parameters' },
+      { value: '30%', label: 'Loss reduction' },
+    ],
+    links: [
+      { label: 'GitHub', placeholder: true },
+    ],
+    mediaText: '∇',
+  },
+  {
     id: 'veritas',
     index: '02',
     category: 'AI Systems · Auditability',
     title: 'VERITAS',
     titleLines: ['VERITAS'],
     description:
-      'Institutional-grade backend for deterministic, auditable, reproducible verification of financial solvency claims. Nine independently deployable microservices. Every evaluation is cryptographically traceable via SHA-256 hash chains, version-controlled, and byte-for-byte reproducible on demand. Refusal-first design: the system explicitly refuses rather than producing low-confidence outputs when evidence is missing.',
+      'Institutional grade backend for deterministic, auditable, reproducible verification of financial solvency claims. Nine independently deployable microservices. Every evaluation is cryptographically traceable via SHA 256 hash chains, version controlled, and byte for byte reproducible on demand. Refusal first design: the system explicitly refuses rather than producing low confidence outputs when evidence is missing.',
     narrative:
-      'The core question VERITAS answers is: can an AI system make a consequential determination in a way that is fully traceable and completely reproducible months later? The answer required solving several distinct problems simultaneously. The Reasoning Engine is a pure-function library — no HTTP interface, no database, no side effects — because a networked reasoning service would introduce latency, serialization overhead, and a new failure mode for the most critical part of the pipeline. The hash-chain audit log makes tampering detectable without write-once storage: any modification to a historical entry breaks the chain at that point. ULID identifiers rather than UUIDs preserve database index locality as records insert and make time-window queries readable without parsing timestamps. The refusal-first policy is a deliberate epistemic stance: a structured REFUSED response with specific missing items is more useful to downstream consumers than a degraded evaluation that looks like a real result.',
+      'The core question VERITAS answers is: can an AI system make a consequential determination in a way that is fully traceable and completely reproducible months later? The answer required solving several distinct problems simultaneously. The Reasoning Engine is a pure function library — no HTTP interface, no database, no side effects — because a networked reasoning service would introduce latency, serialization overhead, and a new failure mode for the most critical part of the pipeline. The hash chain audit log makes tampering detectable without write once storage: any modification to a historical entry breaks the chain at that point. ULID identifiers rather than UUIDs preserve database index locality as records insert and make time window queries readable without parsing timestamps. The refusal first policy is a deliberate epistemic stance: a structured REFUSED response with specific missing items is more useful to downstream consumers than a degraded evaluation that looks like a real result.',
     details: [
       '427 tests passing, 71% coverage, 100% coverage on models and schemas',
-      'SHA-256 hash chains on every audit entry — tampering detectable without write-once storage',
-      'Refusal-first: structured REFUSED response when required evidence is missing',
+      'SHA-256 hash chains on every audit entry — tampering detectable without write once storage',
+      'Refusal first: structured REFUSED response when required evidence is missing',
       'Nine independently deployable services: API Gateway → Orchestrator → Reasoning Engine → Audit/Report',
-      'FastAPI · PostgreSQL · MinIO · Docker · pydantic-settings · structlog',
+      'FastAPI · PostgreSQL · MinIO · Docker · pydantic settings · structlog',
     ],
     tags: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'Microservices', 'Cryptography'],
     stats: [
@@ -73,46 +99,20 @@ export const PROJECTS: Project[] = [
     mediaText: 'VERITAS',
   },
   {
-    id: 'transformer',
-    index: '03',
-    category: 'ML Research · Interpretability',
-    title: 'Mechanistic Transformer',
-    titleLines: ['Mechanistic', 'Transformer'],
-    description:
-      'Built a 10M+ parameter transformer language model from scratch — tokenization, positional embeddings, multi-head attention, gradient-based optimization — without high-level model libraries. Paired with a full mechanistic interpretability toolkit: attention visualization, activation probing, and gradient attribution, used to run controlled ablation experiments isolating the contribution of depth and attention heads to validation loss.',
-    narrative:
-      'Building the model from scratch was a prerequisite for trusting the interpretability results. If you use a library\'s attention implementation, you do not know exactly what the attention patterns mean. Writing every component made it possible to instrument precisely: probing activations at specific layers, zeroing out individual heads, and attributing gradient signal to specific components. The 30% validation loss reduction via ablation experiments was not a lucky hyperparameter search — it was the result of understanding which architectural choices were doing real work and which were not. The toolkit produces attention heatmaps, layer-by-layer activation distributions, and gradient attribution maps that show where the model\'s predictions come from.',
-    details: [
-      '10M+ parameters built from scratch, no high-level libraries (raw PyTorch)',
-      '30% validation loss reduction via targeted ablation experiments',
-      'Attention visualization, per-layer activation probing, gradient attribution',
-      'Controlled scaling experiments across architectures and training regimes',
-    ],
-    tags: ['PyTorch', 'Transformers', 'Interpretability', 'Python', 'ML Research'],
-    stats: [
-      { value: '10M+', label: 'Parameters' },
-      { value: '30%', label: 'Loss reduction' },
-    ],
-    links: [
-      { label: 'GitHub', placeholder: true },
-    ],
-    mediaText: '∇',
-  },
-  {
     id: 'smile saviors',
     index: '04',
     category: 'ML Research · Published',
     title: 'Smile Saviors',
     titleLines: ['Smile', 'Saviors'],
     description:
-      'Ensemble deep learning framework for early oral cancer detection combining Vision Transformers and ResNet-18 architectures via soft-voting. Achieved 99.5% classification accuracy (1 false positive, 0 false negatives) on a balanced dataset of 950 medical images, surpassing prior ensemble benchmarks. Co-authored a 9-page academic paper covering methodology, Grad-CAM analysis, and clinical implications.',
+      'Ensemble deep learning framework for early oral cancer detection combining Vision Transformers and ResNet 18 architectures via soft voting. Achieved 99.5% classification accuracy (1 false positive, 0 false negatives) on a balanced dataset of 950 medical images, surpassing prior ensemble benchmarks. Co authored a 9 page academic paper covering methodology, Grad CAM analysis, and clinical implications.',
     narrative:
-      'Oral carcinoma is the 16th most common cancer globally, with a survival rate that drops from 80% to under 20% if caught late. The dataset — 950 images of patients\' oral cavities captured with standard digital cameras — was deliberately chosen to simulate real-world resource constraints rather than ideal clinical imaging. The key architectural decision was selecting which transformer to ensemble with ResNet-18: the Vision Transformer outperformed the Swin Transformer by 2.2% validation accuracy and achieved perfect precision, making it the stronger pairing. Soft-voting over the models\' probability distributions (rather than hard voting) moderated the extreme predictions that noisy medical images produce. Grad-CAM visualizations confirmed both models were attending to clinically meaningful regions, not imaging artifacts.',
+      'Oral carcinoma is the 16th most common cancer globally, with a survival rate that drops from 80% to under 20% if caught late. The dataset — 950 images of patients\' oral cavities captured with standard digital cameras — was deliberately chosen to simulate real world resource constraints rather than ideal clinical imaging. The key architectural decision was selecting which transformer to ensemble with ResNet 18: the Vision Transformer outperformed the Swin Transformer by 2.2% validation accuracy and achieved perfect precision, making it the stronger pairing. Soft voting over the models\' probability distributions (rather than hard voting) moderated the extreme predictions that noisy medical images produce. Grad CAM visualizations confirmed both models were attending to clinically meaningful regions, not imaging artifacts.',
     details: [
       '99.5% ensemble accuracy — 1 false positive, 0 false negatives on 950 images',
-      'ViT + ResNet-18 soft-voting ensemble; ViT selected over Swin Transformer after controlled eval',
+      'ViT + ResNet 18 soft voting ensemble; ViT selected over Swin Transformer after controlled eval',
       'Advanced data augmentation (flipping, rotation, Gaussian blur, brightness) to reduce overfitting',
-      '9-page co-authored paper with Grad-CAM analysis and clinical implications',
+      '9 page co authored paper with Grad CAM analysis and clinical implications',
     ],
     tags: ['Deep Learning', 'ViT', 'ResNet', 'Medical Imaging', 'Research'],
     stats: [
@@ -134,15 +134,15 @@ export const PROJECTS: Project[] = [
     title: 'ORDIN',
     titleLines: ['ORDIN'],
     description:
-      'Production-grade FastAPI backend for AI-native task orchestration and scheduling — built to determine what users should work on next and schedule it against their actual calendar availability. Privacy-first calendar integration (event metadata discarded immediately, only busy/free blocks stored), explicit task state machine, per-request structured logging, and Kubernetes-ready infrastructure designed as a foundation for an autonomous AI scheduling engine.',
+      'Production grade FastAPI backend for AI native task orchestration and scheduling — built to determine what users should work on next and schedule it against their actual calendar availability. Privacy first calendar integration (event metadata discarded immediately, only busy/free blocks stored), explicit task state machine, per request structured logging, and Kubernetes ready infrastructure designed as a foundation for an autonomous AI scheduling engine.',
     narrative:
-      'The interesting problem in ORDIN is not CRUD — it is making the system a trustworthy foundation for an AI to act on. That means three things: the authentication layer must disappear entirely so route handlers receive a typed UserContext and never think about tokens; calendar data must be privacy-preserving by architecture (the sync pipeline extracts time ranges and discards everything else before writing to the database); and the availability computation endpoint must be clean enough for a scheduling engine to call without any post-processing. The explicit task state machine — dedicated transition endpoints rather than a generic PATCH — puts state logic on the server where it can be logged semantically and extended with side effects without client changes.',
+      'The interesting problem in ORDIN is not CRUD — it is making the system a trustworthy foundation for an AI to act on. That means three things: the authentication layer must disappear entirely so route handlers receive a typed UserContext and never think about tokens; calendar data must be privacy preserving by architecture (the sync pipeline extracts time ranges and discards everything else before writing to the database); and the availability computation endpoint must be clean enough for a scheduling engine to call without any post processing. The explicit task state machine — dedicated transition endpoints rather than a generic PATCH — puts state logic on the server where it can be logged semantically and extended with side effects without client changes.',
     details: [
-      'Privacy-first calendar sync: event titles, attendees, and metadata discarded — only busy blocks stored',
+      'Privacy first calendar sync: event titles, attendees, and metadata discarded — only busy blocks stored',
       'Explicit state machine with typed transition endpoints (start, complete, archive) — not a generic PATCH',
       'Firebase Auth with automatic UserContext injection — zero auth boilerplate in route handlers',
-      'Structured JSON logging via structlog with request-scoped context binding throughout',
-      'Kubernetes-ready: liveness/readiness probes, multi-stage Docker builds, fail-fast config validation',
+      'Structured JSON logging via structlog with request scoped context binding throughout',
+      'Kubernetes ready: liveness/readiness probes, multi stage Docker builds, fail fast config validation',
     ],
     tags: ['Python', 'FastAPI', 'Firebase', 'Firestore', 'Docker', 'Kubernetes'],
     stats: [
@@ -150,7 +150,7 @@ export const PROJECTS: Project[] = [
       { value: '0', label: 'Auth boilerplate' },
     ],
     links: [
-      { label: 'GitHub', placeholder: true },
+      { label: 'GitHub', url: 'https://github.com/FuzzDOT/ORDIN' },
     ],
     mediaEmoji: '⚙️',
   },
@@ -161,18 +161,18 @@ export const PROJECTS: Project[] = [
     title: 'HARVEST',
     titleLines: ['HARVEST'],
     description:
-      'End-to-end crop planning platform combining agronomic rules, weather data, and profitability modeling to recommend what to plant next. Built during a hackathon with a 4-person team. Supports short-term monthly recommendations and 12-month crop rotation plans, with revenue estimates based on land size and market prices.',
+      'End to end crop planning platform combining agronomic rules, weather data, and profitability modeling to recommend what to plant next. Built during a hackathon with a 4 person team. Supports short term monthly recommendations and 12 month crop rotation plans, with revenue estimates based on land size and market prices.',
     narrative:
-      'HARVEST was built under hackathon time pressure with a clear goal: ship a complete, demo-ready workflow from backend scoring logic to an interactive frontend in one sitting. The backend runs profit, ROI, and ranking pipelines over crop eligibility data filtered by region and season, with fertilizer matching and forecast-based weather handling layered on top. The team divided ownership cleanly — backend and ML to Faaz, frontend to Evan and Ayaan, data management to Zhengyao — which let each layer move independently.',
+      'HARVEST was built under hackathon time pressure with a clear goal: ship a complete, demo ready workflow from backend scoring logic to an interactive frontend in one sitting. The backend runs profit, ROI, and ranking pipelines over crop eligibility data filtered by region and season, with fertilizer matching and forecast based weather handling layered on top. The team divided ownership cleanly — backend and ML to Faaz, frontend to Evan and Ayaan, data management to Zhengyao — which let each layer move independently.',
     details: [
-      'Short-term (monthly) and long-term (12-month rotation) planning modes',
+      'Short term (monthly) and long term (12 month rotation) planning modes',
       'Revenue estimate engine based on selected crop, land area, and market prices',
-      'Forecast-based and historical-normals-based weather handling',
+      'Forecast based and historical normals based weather handling',
       'FastAPI backend · React + TypeScript frontend · pandas data pipelines',
     ],
     tags: ['FastAPI', 'React', 'TypeScript', 'Python', 'pandas', 'Hackathon'],
     links: [
-      { label: 'GitHub', placeholder: true },
+      { label: 'GitHub', url: 'https://github.com/FuzzDOT/HARVEST' },
     ],
     mediaEmoji: '🌾',
   },
@@ -183,10 +183,10 @@ export const PROJECTS: Project[] = [
     title: 'Dr. Help',
     titleLines: ['Dr. Help'],
     description:
-      'Multimodal clinical decision support AI integrating text, image, and structured symptom data into unified medical reasoning. A shared preprocessing pipeline enables reliable cross-modal inference across heterogeneous inputs, with clinical decision accuracy as the primary evaluation metric. Ongoing structured experimentation.',
+      'Multimodal clinical decision support AI integrating text, image, and structured symptom data into unified medical reasoning. A shared preprocessing pipeline enables reliable cross modal inference across heterogeneous inputs, with clinical decision accuracy as the primary evaluation metric. Ongoing structured experimentation.',
     details: [
       'Multimodal: text + image + structured symptom data through a unified preprocessing pipeline',
-      'Cross-modal inference across heterogeneous input types',
+      'Cross modal inference across heterogeneous input types',
       'Clinical decision accuracy as primary evaluation metric',
       'Ongoing structured experimentation and iterative research',
     ],
@@ -204,7 +204,7 @@ export const PROJECTS: Project[] = [
     title: '6 Client Platforms',
     titleLines: ['6 Client', 'Platforms'],
     description:
-      'Designed and deployed 6 production-grade websites using React, SCSS/BEM, and modern performance techniques. Delivered measurable improvements across load time, SEO, and user engagement for every client.',
+      'Designed and deployed 6 production grade websites using React, SCSS/BEM, and modern performance techniques. Delivered measurable improvements across load time, SEO, and user engagement for every client.',
     details: [
       '6 production sites, 100% client approval',
       '34% average page load time reduction',
@@ -229,18 +229,18 @@ export const PROJECTS: Project[] = [
 // During development this points to the oral cancer paper as a placeholder.
 export const WRITING_PAPERS = [
   {
-    id: 'oral-cancer',
-    title: 'An Enhanced Hybrid Diagnostic Deep Learning Framework Using Ensemble ViT-ResNets for Oral Carcinoma Detection',
-    subtitle: 'MehtA+ Research · July 2024',
+    id: 'oral cancer',
+    title: 'An Enhanced Hybrid Diagnostic Deep Learning Framework Using Ensemble ViT ResNets for Oral Carcinoma Detection',
+    subtitle: 'MehtA+ Research · 2024-2025',
     description:
-      'A hybrid deep-learning framework combining Vision Transformers and CNNs via soft-voting ensemble to classify oral squamous carcinoma images. Achieved 99.5% validation accuracy — 1 false positive, 0 false negatives — on 950 medical images. Includes Grad-CAM analysis confirming clinically meaningful feature attribution.',
+      'A hybrid deep learning framework combining Vision Transformers and CNNs via soft voting ensemble to classify oral squamous carcinoma images. Achieved 99.5% validation accuracy — 1 false positive, 0 false negatives — on 950 medical images. Includes Grad CAM analysis confirming clinically meaningful feature attribution.',
     // ↓↓↓ CHANGE THIS PATH to your final PDF URL before deploying ↓↓↓
-    pdfUrl: '/assets/OralCancer.pdf',
+    pdfUrl: 'assets/OralCancer.pdf',
     // ↑↑↑ ─────────────────────────────────────────────────────── ↑↑↑
     pageCount: 9,
     tags: ['Deep Learning', 'ViT', 'ResNet', 'Medical Imaging', 'Ensemble'],
     links: [
-      { label: 'Full Paper', url: 'https://drive.google.com/file/d/19OdhiNO8CBlDEzgTXQRiYhLCms5U374n/view' },
+      { label: 'Paper', url: 'https://drive.google.com/file/d/19OdhiNO8CBlDEzgTXQRiYhLCms5U374n/view' },
       { label: 'Poster', url: 'https://drive.google.com/file/d/1FjBaf4ET1Lxd6D_29N0LE3WuTTTSw2aT/view?usp=sharing' },
     ],
   },
@@ -293,14 +293,14 @@ export const EXPERIENCE = [
     role: 'AI Developer',
     company: 'NSF ExLAIM Research Internship',
     location: 'Raleigh, NC',
-    desc: 'Selected for competitive NSF-funded program (<30 participants). Evaluated LLMs on 10,000+ sample datasets; built data pipelines analyzing 100+ structured interviews.',
+    desc: 'Selected for competitive NSF funded program (<30 participants). Evaluated LLMs on 10,000+ sample datasets; built data pipelines analyzing 100+ structured interviews.',
   },
   {
     period: 'Dec 2025 – Present',
     role: 'CEO & Founder',
     company: 'Adventura Labs',
     location: 'Pittsburgh, PA',
-    desc: 'Building AI-driven software products. Leading product, engineering, fundraising, and go-to-market strategy.',
+    desc: 'Building AI driven software products. Leading product, engineering, fundraising, and go to market strategy.',
   },
   {
     period: 'Dec 2025 – Present',
