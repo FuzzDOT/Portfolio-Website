@@ -235,7 +235,7 @@ export const WRITING_PAPERS = [
     description:
       'A hybrid deep learning framework combining Vision Transformers and CNNs via soft voting ensemble to classify oral squamous carcinoma images. Achieved 99.5% validation accuracy — 1 false positive, 0 false negatives — on 950 medical images. Includes Grad CAM analysis confirming clinically meaningful feature attribution.',
     // ↓↓↓ CHANGE THIS PATH to your final PDF URL before deploying ↓↓↓
-    pdfUrl: 'assets/OralCancer.pdf',
+    pdfUrl: '/OralCancer.pdf',
     // ↑↑↑ ─────────────────────────────────────────────────────── ↑↑↑
     pageCount: 9,
     tags: ['Deep Learning', 'ViT', 'ResNet', 'Medical Imaging', 'Ensemble'],
