@@ -1,15 +1,19 @@
 /* ─── Writing Section ──────────────────────────────────────────────────────── */
 
-.section {
-  position: relative;
+/*
+ * Nav height — must match your actual nav height.
+ * Adjust --nav-h if your nav is taller or shorter.
+ */
+:root {
+  --nav-h: 60px;
 }
 
-/* The outermost sticky wrapper that pins during scroll */
-.sectionInner {
+.section {
+  position: relative;
   border-top: 1px solid var(--border);
 }
 
-/* Header (always visible, above the scroll zone) */
+/* ─── Section header ─────────────────────────────────────────────────────── */
 .header {
   padding: var(--section-py) var(--section-px) 0;
 }
@@ -40,19 +44,20 @@
 }
 .headerVisible .heading { opacity: 1; transform: none; }
 
-/* ─── Paper scroll zone ─────────────────────────────────────────────────────
-   Each paper gets its own scroll region:
-   - Sticky viewport holds the paper while user scrolls through it
-   - sectionHeight in JS = paperScrollTracks * 100vh
-*/
+/* ─── Per-paper scroll zone ─────────────────────────────────────────────── */
 .paperSection {
   position: relative;
 }
 
+/*
+ * Sticky viewport sits BELOW the nav bar so the paper is never clipped.
+ * top  = nav height
+ * height = visible area below the nav
+ */
 .paperSticky {
   position: sticky;
-  top: 0;
-  height: 100svh;
+  top: var(--nav-h);
+  height: calc(100svh - var(--nav-h));
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -60,93 +65,168 @@
   background: var(--bg);
 }
 
-/* ─── Paper container — full viewport width, horizontally ───────────────── */
+/* ─── Paper container — scale animated by JS ────────────────────────────── */
 .paperContainer {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   transform-origin: center center;
-  /* scale and translateY driven by JS inline style */
+  will-change: transform;
 }
 
-/* The white paper itself — full width, not fit-to-screen */
+/*
+ * The white paper.
+ * Full viewport width — no side padding, reads like a real document.
+ * Height fills the sticky zone so the PDF has full vertical room.
+ * pointer-events toggled by JS: 'none' during zoom phases (prevents iframe
+ * from stealing scroll/cursor), 'auto' during read phase.
+ */
 .paper {
   position: relative;
   width: 100%;
-  /* Height is calculated so pages scroll vertically within the container */
+  height: 100%;
   background: #fff;
-  box-shadow: 0 8px 80px rgba(0, 0, 0, 0.18), 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 12px 80px rgba(0, 0, 0, 0.22),
+    0 2px 16px rgba(0, 0, 0, 0.10);
   overflow: hidden;
-  border-radius: 2px;
 }
 
-/* iframe fills the paper exactly */
 .paperFrame {
   display: block;
   width: 100%;
   height: 100%;
   border: none;
   background: #fff;
+  /* pointer-events managed by JS via inline style */
 }
 
-/* Progress bar at top of paper */
+/* Accent progress bar along the top edge of the paper */
 .paperProgress {
   position: absolute;
   top: 0;
   left: 0;
-  height: 2px;
+  height: 3px;
   background: var(--accent);
-  transition: width 0.1s linear;
   z-index: 10;
+  border-radius: 0 2px 2px 0;
+  transition: width 0.08s linear;
 }
 
-/* ─── Side info panel ───────────────────────────────────────────────────── */
+/* ─── Apple-glass side info panel ───────────────────────────────────────── */
+/*
+ * The panel sits over the right edge of the paper. Because the paper is white
+ * and the outer bg can be dark, the glass must be readable on both. We use a
+ * light glass card with explicit dark-mode overrides for each mood.
+ */
 .infoBar {
   position: absolute;
-  right: clamp(24px, 4vw, 60px);
+  right: clamp(20px, 3vw, 48px);
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(calc(-50% + 12px));
+  width: 256px;
+  max-height: calc(100% - 48px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  z-index: 20;
-  width: 260px;
+  gap: 14px;
+  z-index: 30;
+  padding: 20px;
+
+  /* Light glass */
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.60);
+  border-radius: 18px;
+  box-shadow:
+    0 4px 40px rgba(0, 0, 0, 0.14),
+    0 1px 4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90);
+
   opacity: 0;
-  transition: opacity 0.5s var(--ease-expo);
   pointer-events: none;
+  transition: opacity 0.45s var(--ease-expo), transform 0.45s var(--ease-expo);
+}
+.infoBar::-webkit-scrollbar { display: none; }
+
+/* Dark-mood glass overrides */
+[data-mood=dark] .infoBar,
+[data-mood=blue] .infoBar,
+[data-mood=green] .infoBar,
+[data-mood=red] .infoBar,
+[data-mood=gold] .infoBar {
+  background: rgba(18, 18, 22, 0.82);
+  border-color: rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 4px 40px rgba(0, 0, 0, 0.50),
+    0 1px 4px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .infoBarVisible {
   opacity: 1;
   pointer-events: auto;
+  transform: translateY(-50%);
 }
 
+/* Text colours — hardcoded so they're always readable regardless of mood */
 .infoBarTitle {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--text);
-  line-height: 1.3;
+  line-height: 1.35;
+  color: #0a0a0a;
 }
+[data-mood=dark] .infoBarTitle,
+[data-mood=blue] .infoBarTitle,
+[data-mood=green] .infoBarTitle,
+[data-mood=red] .infoBarTitle,
+[data-mood=gold] .infoBarTitle { color: #f2f2f2; }
 
 .infoBarSub {
-  font-size: 11px;
+  font-size: 10px;
   font-family: var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-top: 6px;
-  margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.42);
+  margin-top: 3px;
+  margin-bottom: 4px;
 }
+[data-mood=dark] .infoBarSub,
+[data-mood=blue] .infoBarSub,
+[data-mood=green] .infoBarSub,
+[data-mood=red] .infoBarSub,
+[data-mood=gold] .infoBarSub { color: rgba(255, 255, 255, 0.38); }
 
 .infoBarDesc {
-  font-size: 12px;
-  color: var(--text-muted);
+  font-size: 11.5px;
   line-height: 1.65;
+  color: rgba(0, 0, 0, 0.56);
 }
+[data-mood=dark] .infoBarDesc,
+[data-mood=blue] .infoBarDesc,
+[data-mood=green] .infoBarDesc,
+[data-mood=red] .infoBarDesc,
+[data-mood=gold] .infoBarDesc { color: rgba(255, 255, 255, 0.52); }
+
+.infoBarDivider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.07);
+  border: none;
+  margin: 0;
+}
+[data-mood=dark] .infoBarDivider,
+[data-mood=blue] .infoBarDivider,
+[data-mood=green] .infoBarDivider,
+[data-mood=red] .infoBarDivider,
+[data-mood=gold] .infoBarDivider { background: rgba(255, 255, 255, 0.09); }
 
 .infoBarTags {
   display: flex;
@@ -155,35 +235,45 @@
 }
 
 .infoBarTag {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
-  padding: 3px 9px;
+  padding: 3px 8px;
   border-radius: 100px;
-  background: var(--tag-bg);
-  color: var(--tag-text);
-  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.06);
+  color: rgba(0, 0, 0, 0.50);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+[data-mood=dark] .infoBarTag,
+[data-mood=blue] .infoBarTag,
+[data-mood=green] .infoBarTag,
+[data-mood=red] .infoBarTag,
+[data-mood=gold] .infoBarTag {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.46);
+  border-color: rgba(255, 255, 255, 0.11);
 }
 
 .infoBarLinks {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
 
 .infoBarLink {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
-  padding: 7px 14px;
-  border: 1px solid var(--border-strong);
+  padding: 8px 14px;
   border-radius: 100px;
-  color: var(--text);
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  color: #0a0a0a;
+  background: rgba(255, 255, 255, 0.55);
   transition: all 0.2s;
 }
 .infoBarLink:hover {
@@ -191,43 +281,88 @@
   color: var(--accent-inv);
   border-color: var(--accent);
 }
+[data-mood=dark] .infoBarLink,
+[data-mood=blue] .infoBarLink,
+[data-mood=green] .infoBarLink,
+[data-mood=red] .infoBarLink,
+[data-mood=gold] .infoBarLink {
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #f2f2f2;
+  background: rgba(255, 255, 255, 0.06);
+}
 
-/* ─── Scroll hint (shown in zoom-in phase) ─────────────────────────────── */
-.scrollHint {
+/* ─── Page counter pill ──────────────────────────────────────────────────── */
+.pageCounter {
   position: absolute;
-  bottom: 32px;
+  bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.36);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 100px;
+  padding: 4px 14px;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+}
+.pageCounterVisible { opacity: 1; }
+[data-mood=dark] .pageCounter,
+[data-mood=blue] .pageCounter,
+[data-mood=green] .pageCounter,
+[data-mood=red] .pageCounter,
+[data-mood=gold] .pageCounter {
+  background: rgba(18, 18, 22, 0.78);
+  border-color: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.40);
+}
+
+/* ─── Scroll hint ────────────────────────────────────────────────────────── */
+.scrollHint {
+  position: absolute;
+  bottom: 18px;
+  right: clamp(20px, 3vw, 48px);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   opacity: 0;
   transition: opacity 0.4s;
   pointer-events: none;
-  z-index: 20;
+  z-index: 30;
 }
 .scrollHintVisible { opacity: 1; }
 
 .scrollHintArrow {
-  font-size: 18px;
+  font-size: 16px;
   animation: bounce 2s ease-in-out infinite;
 }
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(5px); }
 }
+
 .scrollHintText {
-  font-size: 11px;
+  font-size: 10px;
   font-family: var(--font-mono);
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
+  letter-spacing: 0.10em;
   text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.38);
 }
+[data-mood=dark] .scrollHintText,
+[data-mood=blue] .scrollHintText,
+[data-mood=green] .scrollHintText,
+[data-mood=red] .scrollHintText,
+[data-mood=gold] .scrollHintText { color: rgba(255, 255, 255, 0.32); }
 
-/* ─── Phase label (DEV only) — remove in production ────────────────────── */
-/* .phaseLabel { ... } */
-
-/* ─── Outro: spacer below all papers ───────────────────────────────────── */
+/* ─── Outro ──────────────────────────────────────────────────────────────── */
 .outro {
   padding: var(--section-py) var(--section-px);
   border-top: 1px solid var(--border);
