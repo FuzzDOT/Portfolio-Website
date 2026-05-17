@@ -11,6 +11,7 @@
     "deploy": "npm run build && node copy-cname.js && gh-pages -d dist"
   },
   "dependencies": {
+    "pdfjs-dist": "^5.7.284",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

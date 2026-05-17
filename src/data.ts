@@ -293,7 +293,7 @@ export const EXPERIENCE = [
     role: 'AI Developer',
     company: 'NSF ExLAIM Research Internship',
     location: 'Raleigh, NC',
-    desc: 'Selected for competitive NSF funded program (<30 participants). Evaluated LLMs on 10,000+ sample datasets; built data pipelines analyzing 100+ structured interviews.',
+    desc: 'Selected for competitive NSF funded program (<10 participants). Evaluated LLMs on 10,000+ sample datasets; built data pipelines analyzing 100+ structured interviews.',
   },
   {
     period: 'Dec 2025 – Present',

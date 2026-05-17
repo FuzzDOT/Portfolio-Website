@@ -1,60 +1,100 @@
 /**
  * Writing.tsx — Apple-style scroll-driven PDF reader
  *
- * Fixes applied:
+ * PDF RENDERING: pdfjs-dist renders each page to a <canvas>.
+ * Pages live in a tall <div> whose scrollTop we control directly — no iframe,
+ * no cross-origin issues, no focus required, cursor always tracked correctly.
  *
- * 1. NAV CLIPPING
- *    sticky top = --nav-h (60px), height = 100svh - --nav-h
- *    Paper progress bar sits below the nav, never hidden behind it.
+ * INSTALL FIRST:  npm install pdfjs-dist
  *
- * 2. GLASS PANEL
- *    Side info panel uses backdrop-filter glass.
- *    Light and dark-mood variants both readable.
+ * Worker note: the workerSrc line below uses Vite's import.meta.url to
+ * resolve the worker file from node_modules automatically. If you get a
+ * worker 404, change workerSrc to:
+ *   '/node_modules/pdfjs-dist/build/pdf.worker.min.mjs'
  *
- * 3. SCROLL JANK — no focus required
- *    The sticky zone intercepts wheel + touch events via JS and
- *    re-fires them as window.scrollBy() during the zoom phases,
- *    and as iframe scroll during the read phase.
- *    User never has to click the paper. Cursor can be anywhere.
- *
- * 4. CURSOR GLITCH
- *    iframe gets pointer-events:none at all times except explicitly
- *    during read phase when we need to let the page counter update.
- *    Even then, mouse events are intercepted at the sticky-zone level
- *    so the custom cursor never loses tracking.
- *
- * PDF SCROLL MODEL (Apple iPhone page style):
- *    Position in the PDF is derived purely from the section's
- *    scroll position — no focus, no click needed. The iframe's
- *    internal scroll is set programmatically from readProgress.
- *
- * PDF_PATH: change paper.pdfUrl in data.ts WRITING_PAPERS.
+ * PDF_PATH: set paper.pdfUrl in data.ts → WRITING_PAPERS.
  */
 
 import { useRef, useEffect, useState, useCallback } from 'react'
+import * as pdfjsLib from 'pdfjs-dist'
 import { WRITING_PAPERS } from '../data'
 import styles from './Writing.module.css'
 
-// ─── Tunable constants ───────────────────────────────────────────────────────
-const SCALE_MIN        = 0.52   // scale when entering / exiting
-const SCALE_MAX        = 1.00   // scale when fully zoomed in
-const ZOOM_IN_VH       = 1.5   // scroll budget (viewport heights) for zoom-in
-const READ_VH          = 5.0   // scroll budget while reading the PDF
-const ZOOM_OUT_VH      = 1.5   // scroll budget for zoom-out
-const TOTAL_VH         = ZOOM_IN_VH + READ_VH + ZOOM_OUT_VH
-const SCALE_LERP       = 0.09  // smoothing for scale animation
-const PROG_LERP        = 0.07  // smoothing for read-progress
+// ── pdf.js worker (Vite-friendly) ─────────────────────────────────────────
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).href
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// ─── Constants ───────────────────────────────────────────────────────────
+const SCALE_MIN   = 0.52
+const SCALE_MAX   = 1.00
+const ZOOM_IN_VH  = 1.5
+const READ_VH     = 5.0
+const ZOOM_OUT_VH = 1.5
+const TOTAL_VH    = ZOOM_IN_VH + READ_VH + ZOOM_OUT_VH
+const SCALE_LERP  = 0.09
+const PROG_LERP   = 0.07
+
 type Phase = 'pre' | 'zoomIn' | 'read' | 'zoomOut' | 'post'
 
-interface VisualState {
-  scale: number
-  readProgress: number
-  phase: Phase
+function easeOut(t: number) { return 1 - Math.pow(1 - t, 3) }
+
+// ─── Hook: load + render all PDF pages to canvases ───────────────────────
+function usePdfCanvases(pdfUrl: string) {
+  const [canvases, setCanvases]   = useState<HTMLCanvasElement[]>([])
+  const [pageCount, setPageCount] = useState(0)
+  const [loading, setLoading]     = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+    setLoading(true)
+    setCanvases([])
+    setPageCount(0)
+
+    ;(async () => {
+      try {
+        const pdf = await pdfjsLib.getDocument(pdfUrl).promise
+        if (cancelled) return
+        setPageCount(pdf.numPages)
+
+        const out: HTMLCanvasElement[] = []
+        const viewportW = window.innerWidth
+
+        for (let p = 1; p <= pdf.numPages; p++) {
+          if (cancelled) return
+          const page = await pdf.getPage(p)
+          const baseVp = page.getViewport({ scale: 1 })
+          const scale  = viewportW / baseVp.width
+          const vp     = page.getViewport({ scale })
+
+          const canvas = document.createElement('canvas')
+          const dpr    = window.devicePixelRatio || 1
+          canvas.width  = vp.width  * dpr
+          canvas.height = vp.height * dpr
+          canvas.style.cssText = `width:${vp.width}px;height:${vp.height}px;display:block;`
+
+          const ctx = canvas.getContext('2d')!
+          ctx.scale(dpr, dpr)
+          await page.render({ canvasContext: ctx, viewport: vp, canvas }).promise
+          if (cancelled) return
+          out.push(canvas)
+        }
+
+        if (!cancelled) { setCanvases(out); setLoading(false) }
+      } catch (e) {
+        console.error('[Writing] pdfjs error', e)
+        if (!cancelled) setLoading(false)
+      }
+    })()
+
+    return () => { cancelled = true }
+  }, [pdfUrl])
+
+  return { canvases, pageCount, loading }
 }
 
-// ─── PaperBlock ──────────────────────────────────────────────────────────────
+// ─── PaperBlock ──────────────────────────────────────────────────────────
 function PaperBlock({
   paper,
   onLinkHover,
@@ -62,67 +102,65 @@ function PaperBlock({
   paper: typeof WRITING_PAPERS[number]
   onLinkHover?: (v: boolean) => void
 }) {
-  const sectionRef  = useRef<HTMLDivElement>(null)
-  const stickyRef   = useRef<HTMLDivElement>(null)
-  const iframeRef   = useRef<HTMLIFrameElement>(null)
+  const sectionRef   = useRef<HTMLDivElement>(null)
+  const scrollDivRef = useRef<HTMLDivElement | null>(null)
 
-  // Smooth animation targets
-  const targetScale    = useRef(SCALE_MIN)
-  const currentScale   = useRef(SCALE_MIN)
-  const targetProg     = useRef(0)
-  const currentProg    = useRef(0)
-  const currentPhase   = useRef<Phase>('pre')
-  const rafRef         = useRef<number>()
+  // Raw animation targets (mutated in scroll handler, read in rAF)
+  const tgtScale = useRef(SCALE_MIN)
+  const curScale = useRef(SCALE_MIN)
+  const tgtProg  = useRef(0)
+  const curProg  = useRef(0)
+  const phaseRef = useRef<Phase>('pre')
+  const rafRef   = useRef<number>()
 
-  const [visual, setVisual] = useState<VisualState>({
-    scale: SCALE_MIN,
-    readProgress: 0,
-    phase: 'pre',
-  })
+  // React state — only for rendering, not for animation math
+  const [scale, setScale]               = useState(SCALE_MIN)
+  const [readProgress, setReadProgress] = useState(0)
+  const [phase, setPhase]               = useState<Phase>('pre')
 
-  // ── Map scroll position → phase + targets ──────────────────────────────
+  const { canvases, pageCount, loading } = usePdfCanvases(paper.pdfUrl)
+
+  // Attach rendered canvases into the scroll div when they arrive
+  const attachRef = useCallback((node: HTMLDivElement | null) => {
+    scrollDivRef.current = node
+    if (!node) return
+    node.innerHTML = ''
+    canvases.forEach(c => node.appendChild(c))
+  }, [canvases])
+
+  // ── Scroll → animation targets ────────────────────────────────────
   const computeTargets = useCallback(() => {
     const section = sectionRef.current
     if (!section) return
-
-    const sectionTop = section.getBoundingClientRect().top + window.scrollY
-    const sectionH   = section.offsetHeight
-    const viewH      = window.innerHeight
-    const scrollIn   = window.scrollY - sectionTop
-    const maxScroll  = sectionH - viewH
+    const top       = section.getBoundingClientRect().top + window.scrollY
+    const maxScroll = section.offsetHeight - window.innerHeight
+    const scrollIn  = window.scrollY - top
 
     if (scrollIn <= 0) {
-      targetScale.current = SCALE_MIN
-      targetProg.current  = 0
-      currentPhase.current = 'pre'
-      return
+      tgtScale.current = SCALE_MIN; tgtProg.current = 0
+      phaseRef.current = 'pre'; return
     }
     if (scrollIn >= maxScroll) {
-      targetScale.current = SCALE_MIN
-      targetProg.current  = 1
-      currentPhase.current = 'post'
-      return
+      tgtScale.current = SCALE_MIN; tgtProg.current = 1
+      phaseRef.current = 'post'; return
     }
 
-    const zoomInPx  = (ZOOM_IN_VH  / TOTAL_VH) * maxScroll
-    const readPx    = (READ_VH     / TOTAL_VH) * maxScroll
-    const zoomOutPx = (ZOOM_OUT_VH / TOTAL_VH) * maxScroll
+    const ziPx = (ZOOM_IN_VH  / TOTAL_VH) * maxScroll
+    const rdPx = (READ_VH     / TOTAL_VH) * maxScroll
+    const zoPx = (ZOOM_OUT_VH / TOTAL_VH) * maxScroll
 
-    if (scrollIn < zoomInPx) {
-      const t = scrollIn / zoomInPx
-      targetScale.current = SCALE_MIN + (SCALE_MAX - SCALE_MIN) * easeOut(t)
-      targetProg.current  = 0
-      currentPhase.current = 'zoomIn'
-    } else if (scrollIn < zoomInPx + readPx) {
-      const t = (scrollIn - zoomInPx) / readPx
-      targetScale.current = SCALE_MAX
-      targetProg.current  = t
-      currentPhase.current = 'read'
+    if (scrollIn < ziPx) {
+      tgtScale.current = SCALE_MIN + (SCALE_MAX - SCALE_MIN) * easeOut(scrollIn / ziPx)
+      tgtProg.current  = 0
+      phaseRef.current = 'zoomIn'
+    } else if (scrollIn < ziPx + rdPx) {
+      tgtScale.current = SCALE_MAX
+      tgtProg.current  = (scrollIn - ziPx) / rdPx
+      phaseRef.current = 'read'
     } else {
-      const t = (scrollIn - zoomInPx - readPx) / zoomOutPx
-      targetScale.current = SCALE_MAX - (SCALE_MAX - SCALE_MIN) * easeOut(t)
-      targetProg.current  = 1
-      currentPhase.current = 'zoomOut'
+      tgtScale.current = SCALE_MAX - (SCALE_MAX - SCALE_MIN) * easeOut((scrollIn - ziPx - rdPx) / zoPx)
+      tgtProg.current  = 1
+      phaseRef.current = 'zoomOut'
     }
   }, [])
 
@@ -132,30 +170,22 @@ function PaperBlock({
     return () => window.removeEventListener('scroll', computeTargets)
   }, [computeTargets])
 
-  // ── rAF lerp loop ────────────────────────────────────────────────────────
+  // ── rAF lerp loop ─────────────────────────────────────────────────
   useEffect(() => {
     const tick = () => {
-      currentScale.current += (targetScale.current - currentScale.current) * SCALE_LERP
-      currentProg.current  += (targetProg.current  - currentProg.current)  * PROG_LERP
+      curScale.current += (tgtScale.current - curScale.current) * SCALE_LERP
+      curProg.current  += (tgtProg.current  - curProg.current)  * PROG_LERP
 
-      // Drive iframe internal scroll (same-origin PDFs only;
-      // cross-origin PDFs fall through silently — progress bar still works)
-      try {
-        const iframe = iframeRef.current
-        if (iframe?.contentWindow) {
-          const doc     = iframe.contentDocument || iframe.contentWindow.document
-          const scrollH = doc.documentElement.scrollHeight - iframe.clientHeight
-          if (scrollH > 0) {
-            iframe.contentWindow.scrollTo(0, currentProg.current * scrollH)
-          }
-        }
-      } catch { /* cross-origin — expected */ }
+      // Drive the scroll div — this is what actually scrolls the PDF content
+      const div = scrollDivRef.current
+      if (div) {
+        const max = div.scrollHeight - div.clientHeight
+        if (max > 0) div.scrollTop = curProg.current * max
+      }
 
-      setVisual({
-        scale: currentScale.current,
-        readProgress: currentProg.current,
-        phase: currentPhase.current,
-      })
+      setScale(curScale.current)
+      setReadProgress(curProg.current)
+      setPhase(phaseRef.current)
 
       rafRef.current = requestAnimationFrame(tick)
     }
@@ -163,105 +193,69 @@ function PaperBlock({
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
   }, [])
 
-  // ── Intercept wheel events on the sticky zone ─────────────────────────
-  // This is the key fix for scroll jank: instead of requiring the user to
-  // focus the iframe, we catch all wheel events on the sticky zone and
-  // convert them into window.scrollBy calls. The browser's normal scroll
-  // then drives computeTargets which drives readProgress which drives
-  // the iframe's internal scroll. Zero focus required, cursor can be anywhere.
-  useEffect(() => {
-    const sticky = stickyRef.current
-    if (!sticky) return
-
-    const onWheel = (e: WheelEvent) => {
-      // Only intercept when we're in a phase where normal window scroll
-      // should control this element. If the section isn't in view, let it
-      // pass through to normal scroll.
-      const phase = currentPhase.current
-      if (phase === 'pre' || phase === 'post') return
-      // During all active phases, re-route wheel to window scroll
-      // so the sticky section's parent scrolls correctly.
-      // We do NOT call e.preventDefault() — we let the event bubble normally.
-      // This avoids the focus-trap: the wheel event hits the sticky zone,
-      // we don't swallow it, and the window scroll handler fires.
-      // The only case we need to handle specially is when the phase is 'read'
-      // and the iframe would otherwise intercept it — that's handled by
-      // pointer-events:none on the iframe (see below).
-    }
-
-    sticky.addEventListener('wheel', onWheel, { passive: true })
-    return () => sticky.removeEventListener('wheel', onWheel)
-  }, [])
-
-  // ── Derived display values ────────────────────────────────────────────
-  const { scale, readProgress, phase } = visual
-  const showInfo  = phase === 'zoomIn' || phase === 'read' || phase === 'zoomOut'
-  const showHint  = phase === 'zoomIn'
-  const showCount = phase === 'read' || phase === 'zoomOut'
-
-  // Current page display (1-indexed)
-  const currentPage = Math.max(1, Math.round(readProgress * (paper.pageCount - 1)) + 1)
-
-  // iframe pointer-events: none at ALL times.
-  // We drive everything through scroll position — the iframe never needs
-  // to receive pointer events, and keeping it pointer-events:none means
-  // the custom cursor always has accurate elementFromPoint readings.
-  const iframePointerEvents = 'none' as const
-
-  const sectionHeight = `${TOTAL_VH * 100}svh`
+  // ── Derived display values ────────────────────────────────────────
+  const totalPages  = pageCount || paper.pageCount
+  const currentPage = Math.max(1, Math.round(readProgress * (totalPages - 1)) + 1)
+  const showInfo    = phase !== 'pre' && phase !== 'post'
+  const showHint    = phase === 'zoomIn'
+  const showCount   = (phase === 'read' || phase === 'zoomOut') && totalPages > 0
 
   return (
     <div
       ref={sectionRef}
       className={styles.paperSection}
-      style={{ height: sectionHeight }}
+      style={{ height: `${TOTAL_VH * 100}svh` }}
     >
-      <div ref={stickyRef} className={styles.paperSticky}>
+      <div className={styles.paperSticky}>
 
-        {/* ── Scaled paper container ──────────────────────────────────── */}
+        {/* Scaled paper */}
         <div
           className={styles.paperContainer}
           style={{ transform: `scale(${scale})` }}
         >
           <div className={styles.paper}>
-            {/* Progress bar — sits at very top of paper, not behind nav */}
             <div
               className={styles.paperProgress}
               style={{ width: `${readProgress * 100}%` }}
             />
 
+            {loading && (
+              <div className={styles.pdfLoading}>
+                <span className={styles.pdfLoadingText}>Loading…</span>
+              </div>
+            )}
+
             {/*
-             * PDF_PATH ↓ — change paper.pdfUrl in data.ts WRITING_PAPERS
-             * #toolbar=0&navpanes=0 hides browser PDF chrome for cleaner look.
-             * pointer-events always none — scroll is driven by JS.
+             * pdfScrollContainer: overflow:hidden so no native scrollbar,
+             * pointerEvents:none so the cursor is never captured by canvas elements.
+             * We set scrollTop in the rAF loop — no user interaction needed.
              */}
-            <iframe
-              ref={iframeRef}
-              src={`${paper.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
-              className={styles.paperFrame}
-              title={paper.title}
-              loading="eager"
-              style={{ pointerEvents: iframePointerEvents }}
+            <div
+              ref={attachRef}
+              className={styles.pdfScrollContainer}
+              style={{
+                opacity: loading ? 0 : 1,
+                transition: 'opacity 0.4s',
+                overflow: 'hidden',
+                pointerEvents: 'none',
+              }}
             />
           </div>
         </div>
 
-        {/* ── Apple-glass info panel ──────────────────────────────────── */}
+        {/* Apple-glass info panel */}
         <div className={`${styles.infoBar} ${showInfo ? styles.infoBarVisible : ''}`}>
           <div>
             <div className={styles.infoBarTitle}>{paper.title}</div>
             <div className={styles.infoBarSub}>{paper.subtitle}</div>
             <p className={styles.infoBarDesc}>{paper.description}</p>
           </div>
-
           <hr className={styles.infoBarDivider} />
-
           <div className={styles.infoBarTags}>
             {paper.tags.map(t => (
               <span key={t} className={styles.infoBarTag}>{t}</span>
             ))}
           </div>
-
           <div className={styles.infoBarLinks}>
             {paper.links.map(l => (
               <a
@@ -282,14 +276,14 @@ function PaperBlock({
           </div>
         </div>
 
-        {/* ── Page counter ────────────────────────────────────────────── */}
-        {paper.pageCount > 0 && (
+        {/* Page counter */}
+        {totalPages > 0 && (
           <div className={`${styles.pageCounter} ${showCount ? styles.pageCounterVisible : ''}`}>
-            {currentPage} / {paper.pageCount}
+            {currentPage} / {totalPages}
           </div>
         )}
 
-        {/* ── Scroll hint ─────────────────────────────────────────────── */}
+        {/* Scroll hint */}
         <div className={`${styles.scrollHint} ${showHint ? styles.scrollHintVisible : ''}`}>
           <span className={styles.scrollHintArrow}>↓</span>
           <span className={styles.scrollHintText}>Scroll to read</span>
@@ -300,12 +294,7 @@ function PaperBlock({
   )
 }
 
-// ─── Easing helper ───────────────────────────────────────────────────────────
-function easeOut(t: number): number {
-  return 1 - Math.pow(1 - t, 3)
-}
-
-// ─── Main Writing section ─────────────────────────────────────────────────────
+// ─── Writing section ──────────────────────────────────────────────────────
 interface WritingProps {
   onLinkHover?: (v: boolean) => void
 }
@@ -325,7 +314,6 @@ export default function Writing({ onLinkHover }: WritingProps) {
 
   return (
     <section className={styles.section} aria-label="Writing & Research">
-      {/* Section header */}
       <div
         ref={headerRef}
         className={`${styles.header} ${headerVis ? styles.headerVisible : ''}`}
@@ -334,16 +322,10 @@ export default function Writing({ onLinkHover }: WritingProps) {
         <h2 className={styles.heading}>PAPERS</h2>
       </div>
 
-      {/* One block per paper */}
       {WRITING_PAPERS.map(paper => (
-        <PaperBlock
-          key={paper.id}
-          paper={paper}
-          onLinkHover={onLinkHover}
-        />
+        <PaperBlock key={paper.id} paper={paper} onLinkHover={onLinkHover} />
       ))}
 
-      {/* Outro */}
       <div className={styles.outro}>
         <div>
           <div className={styles.outroText}>More coming soon.</div>
