@@ -71,22 +71,19 @@
   inset: 0;
   display: flex;
   align-items: center;
-  justify-content: flex-start;  /* paper hugs left, gutter on right */
-  transform-origin: left center; /* scale from left edge, not center */
+  justify-content: center;
+  transform-origin: center center;
   will-change: transform;
 }
 
 /*
- * The white paper.
- * Width: 72% of viewport — leaves a right gutter for the info card.
- * The card (260px + 48px margin = ~310px) sits comfortably in the remaining 28%.
- * Aligned to the left so the gutter is on the right.
+ * The white paper — full viewport width.
+ * The info card overlays on top with auto-hide behaviour (see JS).
  */
 .paper {
   position: relative;
-  width: 72%;
+  width: 100%;
   height: 100%;
-  margin-left: 0;
   background: #fff;
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.06),
@@ -142,19 +139,121 @@
   transition: width 0.08s linear;
 }
 
-/* ─── Apple-glass side info panel ───────────────────────────────────────── */
+/* ─── Info panel: slide-out drawer with toggle tab ──────────────────────── */
 /*
- * The panel sits over the right edge of the paper. Because the paper is white
- * and the outer bg can be dark, the glass must be readable on both. We use a
- * light glass card with explicit dark-mode overrides for each mood.
+ * Layout: .infoPanel is an absolutely-positioned row that sits flush against
+ * the right edge of the sticky zone. It contains:
+ *   [tab][card]
+ * The whole row slides right to hide (only tab peeks), slides left to show.
+ *
+ * AUTO_HIDE_MS is defined in Writing.tsx — default 3500ms.
  */
-.infoBar {
+
+.infoPanel {
   position: absolute;
-  right: clamp(20px, 3vw, 48px);
+  right: 0;
   top: 50%;
-  transform: translateY(calc(-50% + 12px));
-  width: 256px;
-  max-height: calc(100% - 48px);
+  transform: translateY(-50%) translateX(0px);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  z-index: 30;
+  /* slide transition — cubic apple spring */
+  transition:
+    transform 0.55s cubic-bezier(0.32, 0, 0.18, 1),
+    opacity 0.35s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Fade + slide in when section becomes active */
+.infoPanelVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) translateX(0px);
+}
+
+/*
+ * Hidden state: slide right so only the tab (28px) stays on screen.
+ * The card is 256px + 20px padding*2 = card width; tab stays peaking.
+ */
+.infoPanelCollapsed {
+  /* translateX = card width. Tab stays visible at right edge. */
+  transform: translateY(-50%) translateX(var(--card-w, 256px));
+}
+
+/* ── Toggle tab ────────────────────────────────────────────────────────── */
+.infoToggleTab {
+  flex-shrink: 0;
+  width: 28px;
+  align-self: center;
+  height: 68px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  box-shadow: -3px 0 18px rgba(0, 0, 0, 0.10);
+  transition: background 0.2s, box-shadow 0.2s, width 0.2s;
+}
+.infoToggleTab:hover {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.14);
+  width: 32px;
+}
+
+[data-mood=dark] .infoToggleTab,
+[data-mood=blue] .infoToggleTab,
+[data-mood=green] .infoToggleTab,
+[data-mood=red] .infoToggleTab,
+[data-mood=gold] .infoToggleTab {
+  background: rgba(22, 22, 28, 0.88);
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow: -3px 0 18px rgba(0, 0, 0, 0.40);
+}
+[data-mood=dark] .infoToggleTab:hover,
+[data-mood=blue] .infoToggleTab:hover,
+[data-mood=green] .infoToggleTab:hover,
+[data-mood=red] .infoToggleTab:hover,
+[data-mood=gold] .infoToggleTab:hover {
+  background: rgba(35, 35, 44, 0.97);
+}
+
+/* Chevron arrow inside tab */
+.infoToggleArrow {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-right: 1.8px solid rgba(0, 0, 0, 0.40);
+  border-bottom: 1.8px solid rgba(0, 0, 0, 0.40);
+  /* default: points right = "open" hint when collapsed */
+  transform: rotate(-45deg) translateX(-1px);
+  transition: transform 0.45s cubic-bezier(0.32, 0, 0.18, 1), border-color 0.2s;
+}
+/* When panel is open, arrow points left = "close" hint */
+.infoPanelVisible:not(.infoPanelCollapsed) .infoToggleArrow {
+  transform: rotate(135deg) translateX(-1px);
+}
+
+[data-mood=dark] .infoToggleArrow,
+[data-mood=blue] .infoToggleArrow,
+[data-mood=green] .infoToggleArrow,
+[data-mood=red] .infoToggleArrow,
+[data-mood=gold] .infoToggleArrow {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+/* ── Glass card ─────────────────────────────────────────────────────────── */
+.infoBar {
+  --card-w: 256px;
+  width: var(--card-w);
+  max-height: calc(100svh - var(--nav-h) - 48px);
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
@@ -162,47 +261,33 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  z-index: 30;
   padding: 20px;
 
-  /* Light glass */
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.84);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.60);
-  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-left: none; /* tab handles left edge */
+  border-radius: 0;
   box-shadow:
-    0 4px 40px rgba(0, 0, 0, 0.14),
-    0 1px 4px rgba(0, 0, 0, 0.08),
+    0 4px 40px rgba(0, 0, 0, 0.13),
     inset 0 1px 0 rgba(255, 255, 255, 0.90);
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.45s var(--ease-expo), transform 0.45s var(--ease-expo);
 }
 .infoBar::-webkit-scrollbar { display: none; }
 
-/* Dark-mood glass overrides */
 [data-mood=dark] .infoBar,
 [data-mood=blue] .infoBar,
 [data-mood=green] .infoBar,
 [data-mood=red] .infoBar,
 [data-mood=gold] .infoBar {
-  background: rgba(18, 18, 22, 0.82);
+  background: rgba(18, 18, 22, 0.90);
   border-color: rgba(255, 255, 255, 0.09);
   box-shadow:
-    0 4px 40px rgba(0, 0, 0, 0.50),
-    0 1px 4px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 4px 40px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.infoBarVisible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(-50%);
-}
-
-/* Text colours — hardcoded so they're always readable regardless of mood */
+/* ── Card text ──────────────────────────────────────────────────────────── */
 .infoBarTitle {
   font-size: 13px;
   font-weight: 700;

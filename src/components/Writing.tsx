@@ -1,18 +1,15 @@
 /**
  * Writing.tsx — Apple-style scroll-driven PDF reader
  *
- * PDF RENDERING: pdfjs-dist renders each page to a <canvas>.
- * Pages live in a tall <div> whose scrollTop we control directly — no iframe,
- * no cross-origin issues, no focus required, cursor always tracked correctly.
+ * Info panel behaviour:
+ *   • Slides in from the right when the section first becomes active
+ *   • Auto-hides after AUTO_HIDE_MS milliseconds ← change this freely
+ *   • A minimal tab with an animated chevron stays visible at the right edge
+ *   • Clicking the tab toggles the panel open/closed with a spring animation
+ *   • Manual open resets the auto-hide timer
  *
- * INSTALL FIRST:  npm install pdfjs-dist
- *
- * Worker note: the workerSrc line below uses Vite's import.meta.url to
- * resolve the worker file from node_modules automatically. If you get a
- * worker 404, change workerSrc to:
- *   '/node_modules/pdfjs-dist/build/pdf.worker.min.mjs'
- *
- * PDF_PATH: set paper.pdfUrl in data.ts → WRITING_PAPERS.
+ * PDF rendering: pdfjs-dist renders pages to <canvas> elements.
+ * Install: npm install pdfjs-dist
  */
 
 import { useRef, useEffect, useState, useCallback } from 'react'
@@ -20,13 +17,17 @@ import * as pdfjsLib from 'pdfjs-dist'
 import { WRITING_PAPERS } from '../data'
 import styles from './Writing.module.css'
 
-// ── pdf.js worker (Vite-friendly) ─────────────────────────────────────────
+// ── pdf.js worker ─────────────────────────────────────────────────────────
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
   import.meta.url,
 ).href
 
-// ─── Constants ───────────────────────────────────────────────────────────
+// ─── ↓↓↓ TUNE THIS to change how long the card stays open on first load ↓↓↓
+const AUTO_HIDE_MS = 3500  // milliseconds before the panel auto-collapses
+// ─── ↑↑↑ ─────────────────────────────────────────────────────────────────
+
+// Animation / scroll constants
 const SCALE_MIN   = 0.52
 const SCALE_MAX   = 1.00
 const ZOOM_IN_VH  = 1.5
@@ -40,7 +41,7 @@ type Phase = 'pre' | 'zoomIn' | 'read' | 'zoomOut' | 'post'
 
 function easeOut(t: number) { return 1 - Math.pow(1 - t, 3) }
 
-// ─── Hook: load + render all PDF pages to canvases ───────────────────────
+// ─── usePdfCanvases ──────────────────────────────────────────────────────
 function usePdfCanvases(pdfUrl: string) {
   const [canvases, setCanvases]   = useState<HTMLCanvasElement[]>([])
   const [pageCount, setPageCount] = useState(0)
@@ -63,13 +64,13 @@ function usePdfCanvases(pdfUrl: string) {
 
         for (let p = 1; p <= pdf.numPages; p++) {
           if (cancelled) return
-          const page = await pdf.getPage(p)
+          const page   = await pdf.getPage(p)
           const baseVp = page.getViewport({ scale: 1 })
           const scale  = viewportW / baseVp.width
           const vp     = page.getViewport({ scale })
 
-          const canvas = document.createElement('canvas')
-          const dpr    = window.devicePixelRatio || 1
+          const canvas  = document.createElement('canvas')
+          const dpr     = window.devicePixelRatio || 1
           canvas.width  = vp.width  * dpr
           canvas.height = vp.height * dpr
           canvas.style.cssText = `width:${vp.width}px;height:${vp.height}px;display:block;`
@@ -105,7 +106,7 @@ function PaperBlock({
   const sectionRef   = useRef<HTMLDivElement>(null)
   const scrollDivRef = useRef<HTMLDivElement | null>(null)
 
-  // Raw animation targets (mutated in scroll handler, read in rAF)
+  // Scroll animation
   const tgtScale = useRef(SCALE_MIN)
   const curScale = useRef(SCALE_MIN)
   const tgtProg  = useRef(0)
@@ -113,14 +114,21 @@ function PaperBlock({
   const phaseRef = useRef<Phase>('pre')
   const rafRef   = useRef<number>()
 
-  // React state — only for rendering, not for animation math
   const [scale, setScale]               = useState(SCALE_MIN)
   const [readProgress, setReadProgress] = useState(0)
   const [phase, setPhase]               = useState<Phase>('pre')
 
+  // Panel visibility state
+  // panelActive: section is in scroll range (panel should exist in DOM)
+  // panelOpen: card is slid out (vs collapsed to tab only)
+  const [panelActive, setPanelActive]   = useState(false)
+  const [panelOpen, setPanelOpen]       = useState(false)
+  const autoHideTimer = useRef<ReturnType<typeof setTimeout>>()
+  const hasAutoShown  = useRef(false) // only auto-show once per page load
+
   const { canvases, pageCount, loading } = usePdfCanvases(paper.pdfUrl)
 
-  // Attach rendered canvases into the scroll div when they arrive
+  // Attach canvases to scroll div
   const attachRef = useCallback((node: HTMLDivElement | null) => {
     scrollDivRef.current = node
     if (!node) return
@@ -128,13 +136,27 @@ function PaperBlock({
     canvases.forEach(c => node.appendChild(c))
   }, [canvases])
 
-  // ── Scroll → animation targets ────────────────────────────────────
+  // ── Scroll → targets ──────────────────────────────────────────────
   const computeTargets = useCallback(() => {
     const section = sectionRef.current
     if (!section) return
     const top       = section.getBoundingClientRect().top + window.scrollY
     const maxScroll = section.offsetHeight - window.innerHeight
     const scrollIn  = window.scrollY - top
+
+    const isActive = scrollIn > 0 && scrollIn < maxScroll
+    setPanelActive(isActive)
+
+    // Auto-show panel once when section first enters view
+    if (isActive && !hasAutoShown.current) {
+      hasAutoShown.current = true
+      setPanelOpen(true)
+      // Schedule auto-hide
+      clearTimeout(autoHideTimer.current)
+      autoHideTimer.current = setTimeout(() => {
+        setPanelOpen(false)
+      }, AUTO_HIDE_MS)
+    }
 
     if (scrollIn <= 0) {
       tgtScale.current = SCALE_MIN; tgtProg.current = 0
@@ -167,7 +189,10 @@ function PaperBlock({
   useEffect(() => {
     window.addEventListener('scroll', computeTargets, { passive: true })
     computeTargets()
-    return () => window.removeEventListener('scroll', computeTargets)
+    return () => {
+      window.removeEventListener('scroll', computeTargets)
+      clearTimeout(autoHideTimer.current)
+    }
   }, [computeTargets])
 
   // ── rAF lerp loop ─────────────────────────────────────────────────
@@ -176,7 +201,6 @@ function PaperBlock({
       curScale.current += (tgtScale.current - curScale.current) * SCALE_LERP
       curProg.current  += (tgtProg.current  - curProg.current)  * PROG_LERP
 
-      // Drive the scroll div — this is what actually scrolls the PDF content
       const div = scrollDivRef.current
       if (div) {
         const max = div.scrollHeight - div.clientHeight
@@ -193,12 +217,33 @@ function PaperBlock({
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
   }, [])
 
-  // ── Derived display values ────────────────────────────────────────
+  // ── Toggle handler ────────────────────────────────────────────────
+  const handleToggle = useCallback(() => {
+    setPanelOpen(prev => {
+      const next = !prev
+      // If reopening manually, restart auto-hide timer
+      if (next) {
+        clearTimeout(autoHideTimer.current)
+        autoHideTimer.current = setTimeout(() => {
+          setPanelOpen(false)
+        }, AUTO_HIDE_MS)
+      }
+      return next
+    })
+  }, [])
+
+  // ── Derived ───────────────────────────────────────────────────────
   const totalPages  = pageCount || paper.pageCount
   const currentPage = Math.max(1, Math.round(readProgress * (totalPages - 1)) + 1)
-  const showInfo    = phase !== 'pre' && phase !== 'post'
   const showHint    = phase === 'zoomIn'
   const showCount   = (phase === 'read' || phase === 'zoomOut') && totalPages > 0
+
+  // CSS class composition for the panel
+  const panelClass = [
+    styles.infoPanel,
+    panelActive ? styles.infoPanelVisible : '',
+    panelOpen   ? '' : styles.infoPanelCollapsed,
+  ].join(' ')
 
   return (
     <div
@@ -208,7 +253,7 @@ function PaperBlock({
     >
       <div className={styles.paperSticky}>
 
-        {/* Scaled paper */}
+        {/* ── Scaled paper ──────────────────────────────────────────── */}
         <div
           className={styles.paperContainer}
           style={{ transform: `scale(${scale})` }}
@@ -218,18 +263,11 @@ function PaperBlock({
               className={styles.paperProgress}
               style={{ width: `${readProgress * 100}%` }}
             />
-
             {loading && (
               <div className={styles.pdfLoading}>
                 <span className={styles.pdfLoadingText}>Loading…</span>
               </div>
             )}
-
-            {/*
-             * pdfScrollContainer: overflow:hidden so no native scrollbar,
-             * pointerEvents:none so the cursor is never captured by canvas elements.
-             * We set scrollTop in the rAF loop — no user interaction needed.
-             */}
             <div
               ref={attachRef}
               className={styles.pdfScrollContainer}
@@ -243,47 +281,59 @@ function PaperBlock({
           </div>
         </div>
 
-        {/* Apple-glass info panel */}
-        <div className={`${styles.infoBar} ${showInfo ? styles.infoBarVisible : ''}`}>
-          <div>
-            <div className={styles.infoBarTitle}>{paper.title}</div>
-            <div className={styles.infoBarSub}>{paper.subtitle}</div>
-            <p className={styles.infoBarDesc}>{paper.description}</p>
-          </div>
-          <hr className={styles.infoBarDivider} />
-          <div className={styles.infoBarTags}>
-            {paper.tags.map(t => (
-              <span key={t} className={styles.infoBarTag}>{t}</span>
-            ))}
-          </div>
-          <div className={styles.infoBarLinks}>
-            {paper.links.map(l => (
-              <a
-                key={l.label}
-                href={l.url}
-                target="_blank"
-                rel="noreferrer"
-                className={styles.infoBarLink}
-                onMouseEnter={() => onLinkHover?.(true)}
-                onMouseLeave={() => onLinkHover?.(false)}
-              >
-                <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
-                  <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                {l.label}
-              </a>
-            ))}
+        {/* ── Slide-out info panel (tab + card) ─────────────────────── */}
+        <div className={panelClass}>
+          {/* Animated toggle tab */}
+          <button
+            className={styles.infoToggleTab}
+            onClick={handleToggle}
+            aria-label={panelOpen ? 'Hide paper info' : 'Show paper info'}
+          >
+            <span className={styles.infoToggleArrow} />
+          </button>
+
+          {/* Glass card */}
+          <div className={styles.infoBar}>
+            <div>
+              <div className={styles.infoBarTitle}>{paper.title}</div>
+              <div className={styles.infoBarSub}>{paper.subtitle}</div>
+              <p className={styles.infoBarDesc}>{paper.description}</p>
+            </div>
+            <hr className={styles.infoBarDivider} />
+            <div className={styles.infoBarTags}>
+              {paper.tags.map(t => (
+                <span key={t} className={styles.infoBarTag}>{t}</span>
+              ))}
+            </div>
+            <div className={styles.infoBarLinks}>
+              {paper.links.map(l => (
+                <a
+                  key={l.label}
+                  href={l.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.infoBarLink}
+                  onMouseEnter={() => onLinkHover?.(true)}
+                  onMouseLeave={() => onLinkHover?.(false)}
+                >
+                  <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  {l.label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Page counter */}
+        {/* ── Page counter ──────────────────────────────────────────── */}
         {totalPages > 0 && (
           <div className={`${styles.pageCounter} ${showCount ? styles.pageCounterVisible : ''}`}>
             {currentPage} / {totalPages}
           </div>
         )}
 
-        {/* Scroll hint */}
+        {/* ── Scroll hint ───────────────────────────────────────────── */}
         <div className={`${styles.scrollHint} ${showHint ? styles.scrollHintVisible : ''}`}>
           <span className={styles.scrollHintArrow}>↓</span>
           <span className={styles.scrollHintText}>Scroll to read</span>
