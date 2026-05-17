@@ -136,7 +136,6 @@
   background: var(--accent);
   z-index: 10;
   border-radius: 0 2px 2px 0;
-  transition: width 0.08s linear;
 }
 
 /* ─── Info panel: slide-out drawer with toggle tab ──────────────────────── */
