@@ -221,12 +221,10 @@ function PaperBlock({
   const handleToggle = useCallback(() => {
     setPanelOpen(prev => {
       const next = !prev
-      // If reopening manually, restart auto-hide timer
+      // If manually opening, clear any pending timer and do NOT restart it —
+      // user explicitly asked to see it, so keep it open until they close it.
       if (next) {
         clearTimeout(autoHideTimer.current)
-        autoHideTimer.current = setTimeout(() => {
-          setPanelOpen(false)
-        }, AUTO_HIDE_MS)
       }
       return next
     })
