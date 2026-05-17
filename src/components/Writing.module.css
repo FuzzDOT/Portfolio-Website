@@ -71,22 +71,22 @@
   inset: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  transform-origin: center center;
+  justify-content: flex-start;  /* paper hugs left, gutter on right */
+  transform-origin: left center; /* scale from left edge, not center */
   will-change: transform;
 }
 
 /*
  * The white paper.
- * Full viewport width — no side padding, reads like a real document.
- * Height fills the sticky zone so the PDF has full vertical room.
- * pointer-events toggled by JS: 'none' during zoom phases (prevents iframe
- * from stealing scroll/cursor), 'auto' during read phase.
+ * Width: 72% of viewport — leaves a right gutter for the info card.
+ * The card (260px + 48px margin = ~310px) sits comfortably in the remaining 28%.
+ * Aligned to the left so the gutter is on the right.
  */
 .paper {
   position: relative;
-  width: 100%;
+  width: 72%;
   height: 100%;
+  margin-left: 0;
   background: #fff;
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.06),
