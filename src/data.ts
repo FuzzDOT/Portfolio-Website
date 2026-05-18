@@ -65,7 +65,7 @@ export const PROJECTS: Project[] = [
       { value: '30%', label: 'Loss reduction' },
     ],
     links: [
-      { label: 'GitHub', placeholder: true },
+      { label: 'GitHub', url: 'https://github.com/FuzzDOT/LUMEN' },
     ],
     mediaText: '∇',
   },
