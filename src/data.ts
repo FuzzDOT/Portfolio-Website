@@ -122,7 +122,7 @@ export const PROJECTS: Project[] = [
     ],
     links: [
       { label: 'Poster', url: 'https://drive.google.com/file/d/1FjBaf4ET1Lxd6D_29N0LE3WuTTTSw2aT/view?usp=sharing' },
-      { label: 'Paper', url: 'https://drive.google.com/file/d/19OdhiNO8CBlDEzgTXQRiYhLCms5U374n/view' },
+      { label: 'Paper', url: 'https://doi.org/10.5281/zenodo.20274795' },
       { label: 'GitHub', url: 'https://github.com/Mehta-AIMLResearchBootcamp24/Smile-Savior' },
     ],
     mediaText: '○',
@@ -240,7 +240,7 @@ export const WRITING_PAPERS = [
     pageCount: 9,
     tags: ['Deep Learning', 'ViT', 'ResNet', 'Medical Imaging', 'Ensemble'],
     links: [
-      { label: 'Paper', url: 'https://drive.google.com/file/d/19OdhiNO8CBlDEzgTXQRiYhLCms5U374n/view' },
+      { label: 'Paper', url: 'https://doi.org/10.5281/zenodo.20274795' },
       { label: 'Poster', url: 'https://drive.google.com/file/d/1FjBaf4ET1Lxd6D_29N0LE3WuTTTSw2aT/view?usp=sharing' },
     ],
   },
