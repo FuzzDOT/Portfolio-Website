@@ -47,8 +47,8 @@ export const PROJECTS: Project[] = [
     id: 'transformer',
     index: '03',
     category: 'ML Research · Interpretability',
-    title: 'Mechanistic Transformer',
-    titleLines: ['Mechanistic', 'Transformer'],
+    title: 'LUMEN',
+    titleLines: ['LUMEN'],
     description:
       'Built a 10M+ parameter transformer language model from scratch — tokenization, positional embeddings, multi head attention, gradient based optimization — without high level model libraries. Paired with a full mechanistic interpretability toolkit: attention visualization, activation probing, and gradient attribution, used to run controlled ablation experiments isolating the contribution of depth and attention heads to validation loss.',
     narrative:

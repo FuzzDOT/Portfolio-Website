@@ -61,7 +61,7 @@ export default function About({ onGifHover }: AboutProps) {
                 onMouseEnter={() => onGifHover('/picto1.cb395c31.gif')}
                 onMouseLeave={() => onGifHover(undefined)}
               >
-                <a href="https://fuzzdot.github.io/fmStudio/" target="_blank" rel="noreferrer">FM Studio</a>
+                <a href="https://fuzzdot.github.io/adventuraLabs/" target="_blank" rel="noreferrer">Adventura Labs</a>
               </span>
               {' '}and built{' '}
               <span className={styles.underline}>VERITAS</span>:
@@ -81,7 +81,7 @@ export default function About({ onGifHover }: AboutProps) {
           {/* Paragraph 3 — the thread */}
           <p className={styles.prose} style={{ marginTop: '24px' }}>
             <span className={styles.textLine}>
-              VexDB, the mechanistic transformer, VERITAS —
+              VexDB, LUMEN, VERITAS —
             </span>
             <span className={styles.textLine}>
               they're{' '}

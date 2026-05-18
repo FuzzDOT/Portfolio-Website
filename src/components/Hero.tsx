@@ -62,7 +62,7 @@ export default function Hero({ onGifChange, onLinkHover }: HeroProps) {
       <div className={styles.headingWrap}>
         <h1 className={styles.heading}>
           <span className={styles.line}><span className={styles.lineInner}>CS &</span></span>
-          <span className={styles.line}><span className={styles.lineInner}>AI</span></span>
+          <span className={styles.line}><span className={styles.lineInner}>ML</span></span>
           <span className={styles.line}><span className={styles.lineInner}>ENGINEER</span></span>
         </h1>
 
@@ -70,7 +70,7 @@ export default function Hero({ onGifChange, onLinkHover }: HeroProps) {
           <div className={styles.subtitleLeft}>
             <span className={styles.nameTag}>Faaz Mohamed</span>
             <span className={styles.subtitleText}>
-              CS & Data Science @ Pitt · NSF Research Fellow · AI Systems Engineer 
+              CS & Data Science @ Pitt · NSF Research Fellow · ML Systems Engineer 
             </span>
           </div>
 
@@ -97,11 +97,11 @@ export default function Hero({ onGifChange, onLinkHover }: HeroProps) {
           </div>
 
           <div className={styles.subtitleRight}>
-            <div className={styles.stackLine}>AI, ML</div>
+            <div className={styles.stackLine}>ML</div>
             <div className={styles.stackLine}>& WEB</div>
             <div className={styles.stackLine}>DEV</div>
             <p className={styles.tagline}>
-              Full stack developer and researcher building deterministic AI,
+              Low level systems and ML researcher building deterministic AI,
               multimodal systems, and production grade web platforms.
             </p>
           </div>
