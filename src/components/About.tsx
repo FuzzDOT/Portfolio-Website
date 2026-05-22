@@ -61,7 +61,7 @@ export default function About({ onGifHover }: AboutProps) {
                 onMouseEnter={() => onGifHover('/picto1.cb395c31.gif')}
                 onMouseLeave={() => onGifHover(undefined)}
               >
-                <a href="https://fuzzdot.github.io/adventuraLabs/" target="_blank" rel="noreferrer">Adventura Labs</a>
+                <a href="https://labs.faazmohamed.com/" target="_blank" rel="noreferrer">Adventura Labs</a>
               </span>
               {' '}and built{' '}
               <span className={styles.underline}>VERITAS</span>:
